@@ -213,6 +213,22 @@
     padding:18px 26px; border-top:1px solid var(--line); font-size:13.5px; color:var(--muted); font-style:italic;
   }
 
+  .courses-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+  @media (max-width:720px){ .courses-grid{ grid-template-columns:1fr; } }
+  .course-card{
+    border:1px solid var(--line); border-radius:12px; overflow:hidden; display:flex; flex-direction:column;
+    background:linear-gradient(160deg, var(--surface), var(--bg));
+  }
+  .course-card .cc-head{ padding:22px 24px 0; }
+  .course-card .cc-tag{
+    display:inline-block; font-family:'JetBrains Mono'; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--teal); border:1px solid rgba(79,209,197,0.35); background:var(--teal-dim); padding:4px 10px; border-radius:999px; margin-bottom:12px;
+  }
+  .course-card h3{ font-size:18px; margin:0 0 8px; }
+  .course-card p{ color:#C7CCD6; font-size:14px; line-height:1.55; margin:0; }
+  .course-card .cc-body{ padding:14px 24px 22px; flex:1; }
+  .course-card .cc-foot{ padding:16px 24px; border-top:1px solid var(--line); }
+
   /* TFM */
   .tfm-summary{ color:#C7CCD6; font-size:14.5px; max-width:760px; margin-bottom:8px; }
   .tfm-note{ font-size:13px; color:var(--muted); max-width:760px; margin:16px 0 28px; padding-left:14px; border-left:2px solid var(--amber); }
@@ -295,6 +311,7 @@
       <a href="#experiencia">Experiencia</a>
       <a href="#wondokids">WondoKids</a>
       <a href="#tfm">TFM</a>
+      <a href="#cursos-ia">Hoja de ruta IA</a>
       <a href="#contacto">Contacto</a>
     </nav>
   </div>
@@ -485,9 +502,41 @@
     <p class="tfm-note">Los resultados corresponden a validación sobre conjuntos de test/hold-out; el propio trabajo señala como siguiente paso natural su validación en producción con datos no vistos y mayor volumen — evaluar con honestidad el alcance real de un modelo es, para mí, parte de la metodología, no un matiz opcional.</p>
   </section>
 
+  <!-- HOJA DE RUTA IA / CURSOS -->
+  <section id="cursos-ia" class="reveal">
+    <div class="section-head"><span class="section-tag">06</span><h2>Hoja de ruta: cursos y material sobre IA</h2></div>
+    <p style="color:#C7CCD6; font-size:14.5px; max-width:720px; margin:-16px 0 24px;">Materiales que he diseñado y dictado yo misma, pensados para llevar a cualquier persona u organización de "no sé por dónde empezar" a usar la IA con criterio en su día a día o su negocio.</p>
+    <div class="courses-grid">
+      <div class="course-card">
+        <div class="cc-head">
+          <span class="cc-tag">Nivel: principiante → práctico</span>
+          <h3>IA desde Cero: tu mapa práctico 2026</h3>
+        </div>
+        <div class="cc-body">
+          <p>Guía intensiva para crear tu primera cuenta, escribir prompts que funcionan, y moverte con seguridad por el directorio completo de modelos, benchmarks y precios de IA generativa en 2026.</p>
+        </div>
+        <div class="cc-foot">
+          <a class="btn btn-primary" href="https://techprofile.site/mapa-ia-2026_2.html" target="_blank" rel="noopener">Abrir guía →</a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="cc-head">
+          <span class="cc-tag">Nivel: aplicado a negocio</span>
+          <h3>IA Generativa para Startups: curso intensivo</h3>
+        </div>
+        <div class="cc-body">
+          <p>Curso de 4 horas centrado en negocio: prompt engineering, ecosistema de herramientas, automatización y 3 ejemplos prácticos guiados — pitch, atención al cliente y dashboards asistidos por IA.</p>
+        </div>
+        <div class="cc-foot">
+          <a class="btn btn-primary" href="https://techprofile.site/curso-ia-startups-materiales.html" target="_blank" rel="noopener">Abrir curso →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FORMACIÓN -->
   <section class="reveal">
-    <div class="section-head"><span class="section-tag">06</span><h2>Formación académica</h2></div>
+    <div class="section-head"><span class="section-tag">07</span><h2>Formación académica</h2></div>
     <div class="simple-list">
       <div class="simple-item">
         <span class="dot">◆</span>
@@ -502,7 +551,7 @@
 
   <!-- CERTIFICACIONES -->
   <section class="reveal">
-    <div class="section-head"><span class="section-tag">07</span><h2>Certificaciones destacadas</h2></div>
+    <div class="section-head"><span class="section-tag">08</span><h2>Certificaciones destacadas</h2></div>
     <div class="simple-list">
       <div class="simple-item"><span class="dot">▸</span><div class="content"><b>Business for All Program</b><span>Harvard Business School / Santander Open Academy</span></div></div>
       <div class="simple-item"><span class="dot">▸</span><div class="content"><b>Serie de certificados Harvard Business Impact</b><span>Desarrollo de un caso de negocios · Fundamentos de marketing · Fundamentos de finanzas · Enfoque en el cliente · Negociación · Medición del desempeño</span></div></div>
@@ -515,7 +564,7 @@
 
   <!-- COMPETENCIAS -->
   <section class="reveal">
-    <div class="section-head"><span class="section-tag">08</span><h2>Competencias técnicas</h2></div>
+    <div class="section-head"><span class="section-tag">09</span><h2>Competencias técnicas</h2></div>
     <div class="skill-grid">
       <div class="skill-cat"><span class="label">Datos y BI</span><span class="val">Power BI (DAX, Power Query) · Oracle DB · SQL · Excel avanzado</span></div>
       <div class="skill-cat"><span class="label">Programación</span><span class="val">Python (Pandas, Scikit-learn) · R · JavaScript · PostgreSQL</span></div>
@@ -528,7 +577,7 @@
 
   <!-- IDIOMAS -->
   <section class="reveal">
-    <div class="section-head"><span class="section-tag">09</span><h2>Idiomas</h2></div>
+    <div class="section-head"><span class="section-tag">10</span><h2>Idiomas</h2></div>
     <div class="lang-row">
       <div class="lang-item"><b>Español</b><span style="font-size:12px;color:var(--muted)">Nativo</span><div class="lang-bar"><span style="width:100%"></span></div></div>
       <div class="lang-item"><b>Inglés</b><span style="font-size:12px;color:var(--muted)">B1</span><div class="lang-bar"><span style="width:55%"></span></div></div>

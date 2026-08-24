@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karolin Castañeda Vásquez — BI, Automatización de Procesos e IA Aplicada al Negocio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0E14;
+    --surface:#121826;
+    --surface-2:#161E2E;
+    --line:#232D40;
+    --text:#EDEFF3;
+    --muted:#8B93A3;
+    --teal:#4FD1C5;
+    --amber:#E8A33D;
+    --teal-dim: rgba(79,209,197,0.12);
+    --amber-dim: rgba(232,163,61,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--teal); color:#0B0E14; }
+
+  .grid-overlay{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  h1,h2,h3,.display{ font-family:'Space Grotesk',sans-serif; }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{
+    max-width:1040px;
+    margin:0 auto;
+    padding:0 32px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- TOPBAR ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter: blur(10px);
+    background:rgba(11,14,20,0.75);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:1040px; margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:600; font-size:15px; letter-spacing:0.02em; }
+  .brand-dot{ width:8px; height:8px; border-radius:2px; background:var(--teal); box-shadow:0 0 12px var(--teal); }
+  .topnav{ display:flex; gap:28px; font-size:13px; color:var(--muted); }
+  .topnav a:hover{ color:var(--teal); }
+  @media (max-width:720px){ .topnav{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:88px 0 56px; position:relative; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono'; font-size:12px; letter-spacing:0.08em;
+    color:var(--teal); text-transform:uppercase;
+    padding:6px 12px; border:1px solid rgba(79,209,197,0.35); border-radius:4px;
+    background:var(--teal-dim); margin-bottom:24px;
+  }
+  .hero h1{
+    font-size:clamp(34px, 5.4vw, 58px);
+    font-weight:700; line-height:1.06; letter-spacing:-0.01em;
+    max-width:820px;
+  }
+  .hero h1 .accent{ color:var(--teal); }
+  .hero-sub{
+    margin-top:20px; max-width:640px; font-size:17px; color:var(--muted);
+  }
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:20px 28px; margin-top:32px;
+    font-size:13.5px; color:var(--muted); font-family:'JetBrains Mono';
+  }
+  .hero-meta a{ display:flex; align-items:center; gap:8px; }
+  .hero-meta a:hover{ color:var(--teal); }
+  .hero-meta .ico{ color:var(--amber); font-size:14px; }
+
+  /* KPI strip — signature element */
+  .kpi-strip{
+    margin-top:52px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:linear-gradient(180deg, var(--surface), var(--surface-2));
+    overflow:hidden;
+  }
+  .kpi-strip-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 20px; border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono'; font-size:11px; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase;
+  }
+  .kpi-strip-head .live{ display:flex; align-items:center; gap:6px; color:var(--teal); }
+  .live-pulse{ width:6px; height:6px; border-radius:50%; background:var(--teal); animation:pulse 1.8s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+  .kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); }
+  .kpi-cell{
+    padding:22px 20px; border-right:1px solid var(--line);
+  }
+  .kpi-cell:last-child{ border-right:none; }
+  .kpi-num{
+    font-family:'Space Grotesk'; font-weight:700; font-size:30px; color:var(--text);
+    display:flex; align-items:baseline; gap:2px;
+  }
+  .kpi-num .unit{ font-size:16px; color:var(--amber); font-weight:600; }
+  .kpi-label{ margin-top:6px; font-size:12px; color:var(--muted); }
+  @media (max-width:720px){
+    .kpi-grid{ grid-template-columns:repeat(2,1fr); }
+    .kpi-cell:nth-child(2){ border-right:none; }
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding:64px 0; border-top:1px solid var(--line); }
+  .section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:32px; }
+  .section-tag{
+    font-family:'JetBrains Mono'; font-size:12px; color:var(--amber);
+    letter-spacing:0.08em;
+  }
+  section h2{ font-size:26px; font-weight:600; }
+
+  /* Sobre mí */
+  .about-text p{ max-width:760px; color:#C7CCD6; font-size:16px; margin-bottom:16px; }
+  .about-text strong{ color:var(--text); }
+
+  /* Cards - Lo que aporto */
+  .cards{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  @media (max-width:720px){ .cards{ grid-template-columns:1fr; } }
+  .card{
+    border:1px solid var(--line); border-radius:10px; padding:22px;
+    background:var(--surface);
+    transition:border-color .2s, transform .2s;
+  }
+  .card:hover{ border-color:var(--teal); transform:translateY(-2px); }
+  .card-icon{ font-size:22px; margin-bottom:12px; display:block; }
+  .card h3{ font-size:16px; font-weight:600; margin-bottom:8px; }
+  .card p{ font-size:14px; color:var(--muted); }
+
+  /* Experience timeline */
+  .timeline{ position:relative; padding-left:28px; }
+  .timeline::before{
+    content:''; position:absolute; left:5px; top:6px; bottom:6px; width:1px;
+    background:linear-gradient(var(--teal), var(--line));
+  }
+  .tl-item{ position:relative; padding-bottom:40px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-dot{
+    position:absolute; left:-28px; top:4px; width:11px; height:11px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--teal);
+  }
+  .tl-role{ font-size:17px; font-weight:600; }
+  .tl-org{ font-size:14px; color:var(--amber); margin-top:2px; }
+  .tl-period{ font-family:'JetBrains Mono'; font-size:12px; color:var(--muted); margin-top:2px; }
+  .tl-desc{ margin-top:10px; color:#C7CCD6; font-size:14.5px; max-width:700px; }
+  .tl-list{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+  .tl-list li{ list-style:none; padding-left:18px; position:relative; font-size:14.5px; color:#C7CCD6; }
+  .tl-list li::before{ content:'▸'; position:absolute; left:0; color:var(--teal); }
+  .tl-stack{
+    margin-top:14px; font-family:'JetBrains Mono'; font-size:11.5px; color:var(--muted);
+    padding-top:10px; border-top:1px dashed var(--line);
+  }
+
+  /* WondoKids */
+  .project-box{
+    border:1px solid var(--line); border-radius:12px; overflow:hidden;
+    background:linear-gradient(160deg, var(--surface), var(--bg));
+  }
+  .project-head{
+    padding:24px 26px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    border-bottom:1px solid var(--line);
+  }
+  .project-head h3{ font-size:20px; }
+  .project-link{
+    font-family:'JetBrains Mono'; font-size:12.5px; color:var(--teal);
+    border:1px solid rgba(79,209,197,0.35); padding:6px 12px; border-radius:6px;
+  }
+  .project-link:hover{ background:var(--teal-dim); }
+  .project-body{ padding:24px 26px; }
+  .project-body > p{ color:#C7CCD6; font-size:14.5px; max-width:720px; margin-bottom:20px; }
+  .stack-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  @media (max-width:720px){ .stack-grid{ grid-template-columns:1fr; } }
+  .stack-item{ font-size:13.5px; }
+  .stack-item .label{ font-family:'JetBrains Mono'; color:var(--amber); font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; display:block; margin-bottom:4px; }
+  .stack-item .val{ color:#C7CCD6; }
+  .project-footer{
+    padding:18px 26px; border-top:1px solid var(--line); font-size:13.5px; color:var(--muted); font-style:italic;
+  }
+
+  /* TFM */
+  .tfm-summary{ color:#C7CCD6; font-size:14.5px; max-width:760px; margin-bottom:8px; }
+  .tfm-note{ font-size:13px; color:var(--muted); max-width:760px; margin:16px 0 28px; padding-left:14px; border-left:2px solid var(--amber); }
+  .tfm-cols{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:28px; }
+  @media (max-width:720px){ .tfm-cols{ grid-template-columns:1fr; } }
+  .tfm-cols h4{ font-size:12px; font-family:'JetBrains Mono'; color:var(--teal); text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px; }
+  .tfm-cols ul li{ list-style:none; font-size:14px; color:#C7CCD6; padding:6px 0; border-bottom:1px solid var(--line); }
+
+  table.kpi-table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  table.kpi-table th{
+    text-align:left; font-family:'JetBrains Mono'; font-size:11px; text-transform:uppercase;
+    color:var(--muted); letter-spacing:.05em; padding:10px 12px; border-bottom:1px solid var(--line);
+  }
+  table.kpi-table td{ padding:12px; border-bottom:1px solid var(--line); color:#C7CCD6; }
+  table.kpi-table td.metric{ font-family:'JetBrains Mono'; color:var(--teal); }
+  table.kpi-table tr:last-child td{ border-bottom:none; }
+
+  /* Formación / Certs */
+  .simple-list{ display:flex; flex-direction:column; gap:14px; }
+  .simple-item{ display:flex; gap:16px; align-items:baseline; padding-bottom:14px; border-bottom:1px solid var(--line); }
+  .simple-item:last-child{ border-bottom:none; padding-bottom:0; }
+  .simple-item .dot{ color:var(--amber); font-family:'JetBrains Mono'; font-size:13px; flex-shrink:0; }
+  .simple-item .content b{ font-size:14.5px; }
+  .simple-item .content span{ display:block; font-size:13px; color:var(--muted); margin-top:2px; }
+
+  /* Skills */
+  .skill-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:720px){ .skill-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:480px){ .skill-grid{ grid-template-columns:1fr; } }
+  .skill-cat{ border:1px solid var(--line); border-radius:8px; padding:16px; background:var(--surface); }
+  .skill-cat .label{ font-family:'JetBrains Mono'; font-size:11px; color:var(--amber); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px; display:block; }
+  .skill-cat .val{ font-size:13.5px; color:#C7CCD6; line-height:1.7; }
+
+  /* Idiomas */
+  .lang-row{ display:flex; gap:32px; flex-wrap:wrap; }
+  .lang-item{ min-width:140px; }
+  .lang-item b{ font-size:14.5px; display:block; }
+  .lang-bar{ margin-top:8px; height:4px; border-radius:2px; background:var(--line); overflow:hidden; }
+  .lang-bar span{ display:block; height:100%; background:var(--teal); }
+
+  /* CTA footer */
+  .cta{
+    text-align:center; padding:80px 0 60px;
+  }
+  .cta h2{ font-size:clamp(24px,3.6vw,34px); max-width:640px; margin:0 auto 18px; }
+  .cta p{ color:var(--muted); max-width:520px; margin:0 auto 32px; font-size:15px; }
+  .cta-buttons{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn{
+    font-family:'JetBrains Mono'; font-size:13.5px; padding:13px 22px; border-radius:6px;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{ background:var(--teal); color:#0B0E14; font-weight:600; }
+  .btn-primary:hover{ background:#3fc2b5; }
+  .btn-ghost{ border:1px solid var(--line); color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--teal); color:var(--teal); }
+
+  footer{ border-top:1px solid var(--line); padding:24px 0; text-align:center; font-size:12px; color:var(--muted); font-family:'JetBrains Mono'; }
+
+  /* reveal on scroll */
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .reveal{ opacity:1; transform:none; }
+  }
+
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--teal); outline-offset:2px; }
+</style>
+</head>
+<body>
+
+<div class="grid-overlay"></div>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="brand-dot"></span> Karolin Castañeda Vásquez</div>
+    <nav class="topnav">
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#experiencia">Experiencia</a>
+      <a href="#wondokids">WondoKids</a>
+      <a href="#tfm">TFM</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" style="border-top:none;">
+    <span class="eyebrow">● Disponible — remoto o presencial · Sabadell / Barcelona</span>
+    <h1>Convierto datos de negocio en <span class="accent">sistemas que deciden</span>, no solo en gráficos.</h1>
+    <p class="hero-sub">Especialista en Business Intelligence, Automatización de Procesos e IA Aplicada al Negocio. Máster en Big Data y Ciencia de Datos · 18 años de gestión empresarial · Fundadora full-stack.</p>
+
+    <div class="hero-meta">
+      <a href="mailto:karolin.cv@techprofile.site"><span class="ico">✉</span> karolin.cv@techprofile.site</a>
+      <a href="tel:+34648504221"><span class="ico">☎</span> +34 648 504 221</a>
+      <a href="https://www.linkedin.com/in/karolincv" target="_blank" rel="noopener"><span class="ico">in</span> linkedin.com/in/karolincv</a>
+      <a><span class="ico">◍</span> Sabadell / Barcelona, España</a>
+    </div>
+
+    <div class="kpi-strip reveal">
+      <div class="kpi-strip-head">
+        <span>panel_carrera.overview</span>
+        <span class="live"><span class="live-pulse"></span>en producción</span>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-cell">
+          <div class="kpi-num">18<span class="unit">años</span></div>
+          <div class="kpi-label">Gestión empresarial, comercial y financiera</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-num">80<span class="unit">%</span></div>
+          <div class="kpi-label">Reducción de trabajo manual (reporting)</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-num">14</div>
+          <div class="kpi-label">Dashboards Power BI en producción (Gesiuris AM)</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-num">8.42<span class="unit">/10</span></div>
+          <div class="kpi-label">Nota media · Máster Big Data y Ciencia de Datos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section id="sobre-mi" class="reveal">
+    <div class="section-head"><span class="section-tag">01</span><h2>Sobre mí</h2></div>
+    <div class="about-text">
+      <p>Mi valor diferencial es conectar el <strong>"qué" técnico</strong> de la ciencia de datos con el <strong>"por qué"</strong> del negocio. Después de 18 años en roles de gestión empresarial, comercial y financiera, completé un Máster en Big Data y Ciencia de Datos que me permite llevar esa visión de negocio al terreno analítico y de producción.</p>
+      <p>No parto de la teoría: he liderado la automatización de reporting financiero en un entorno real de Asset Management, he construido herramientas de facturación desde cero, y he desarrollado —sola, de principio a fin— una plataforma web completa con base de datos, pasarela de pagos e IA generativa integrada.</p>
+      <p>Mi objetivo es incorporarme a proyectos donde mi doble perfil —negocio y tecnología— genere impacto real: extraer, limpiar y convertir datos en decisiones, no solo en gráficos bonitos.</p>
+    </div>
+  </section>
+
+  <!-- LO QUE APORTO -->
+  <section class="reveal">
+    <div class="section-head"><span class="section-tag">02</span><h2>Lo que aporto</h2></div>
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">📊</span>
+        <h3>BI y datos en producción</h3>
+        <p>Diseño y desarrollo de dashboards en Power BI sobre bases de datos Oracle, con modelado de datos y medidas DAX, para reporting financiero y seguimiento de cartera en un entorno de Asset Management real.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚙️</span>
+        <h3>Automatización de procesos con IA generativa</h3>
+        <p>Desarrollo de herramientas de software (Python, JavaScript, PostgreSQL) para automatizar procesos manuales de negocio —desde facturación hasta reporting— reduciendo hasta un 80% el trabajo operativo manual.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎓</span>
+        <h3>Ciencia de Datos y Machine Learning con base formal</h3>
+        <p>Máster en Big Data y Ciencia de Datos (VIU), con especialización en modelos predictivos de clasificación, regresión y clustering, y una nota media de 8,42/10.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🚀</span>
+        <h3>Desarrollo full-stack de producto</h3>
+        <p>Fundadora y desarrolladora única de WondoKids, plataforma de streaming educativo infantil construida con arquitectura moderna desacoplada (Supabase, Stripe, Bunny Stream, Vercel, Gemini API).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section id="experiencia" class="reveal">
+    <div class="section-head"><span class="section-tag">03</span><h2>Experiencia profesional</h2></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-role">Business Intelligence · Automatización · IA Aplicada</div>
+        <div class="tl-org">Gesiuris Asset Management SGIIC, SA — Barcelona</div>
+        <div class="tl-period">Feb. 2026 – Jun. 2026</div>
+        <p class="tl-desc">Incorporada en un rol híbrido entre Análisis de Datos, Ingeniería de Procesos y Desarrollo de Aplicativos para mejorar la eficiencia operativa del BackOffice mediante soluciones tecnológicas a medida.</p>
+        <ul class="tl-list">
+          <li>Extracción de datos desde Oracle DB y desarrollo de 14 dashboards interactivos en Power BI (DAX, Power Query) para seguimiento de cartera, rentabilidad y reporting financiero — <strong style="color:var(--text)">reducción del 80% del trabajo manual</strong>.</li>
+          <li>Desarrollo de <em>Gesfact</em>, software de facturación en Python/JavaScript con base de datos PostgreSQL, para automatizar la facturación mensual individual y masiva — reducción del 75% del trabajo manual.</li>
+          <li>Análisis funcional completo del departamento de BackOffice: identificación de cuellos de botella y elaboración de un manual de procesos con recomendaciones estratégicas de IA.</li>
+        </ul>
+        <div class="tl-stack">Stack: Python · SQL · Power BI · Oracle DB · Bizagi · Claude AI/Code · GPT · Copilot · JSON · XML</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-role">Founder &amp; CEO</div>
+        <div class="tl-org">IDTS SAC — Perú</div>
+        <div class="tl-period">Mar. 2018 – Mar. 2024</div>
+        <p class="tl-desc">Dirección estratégica comercial y financiera de una empresa de servicios tecnológicos y análisis de datos (BI), liderando equipos de 3 a 6 personas y optimizando costes operativos mediante estrategias de tercerización y digitalización.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-role">Experiencia previa en gestión empresarial</div>
+        <div class="tl-org">Travex Security · Transaviatur · Importaciones Hiraoka — Perú</div>
+        <div class="tl-period">2000 – 2015</div>
+        <p class="tl-desc">Roles de administración, contabilidad, créditos y cobranzas, y ventas institucionales, construyendo una base sólida en gestión operativa, financiera y de KPIs de negocio.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WONDOKIDS -->
+  <section id="wondokids" class="reveal">
+    <div class="section-head"><span class="section-tag">04</span><h2>Proyecto propio: WondoKids</h2></div>
+    <div class="project-box">
+      <div class="project-head">
+        <h3>WondoKids — streaming educativo infantil</h3>
+        <a class="project-link" href="https://wondokids.com" target="_blank" rel="noopener">wondokids.com ↗</a>
+      </div>
+      <div class="project-body">
+        <p><strong style="color:var(--text)">Fundadora y desarrolladora full-stack</strong> · Jun. 2026 – actualidad. Plataforma de streaming educativo infantil en español, diseñada y construida de forma autónoma cubriendo simultáneamente los roles de arquitecta técnica, desarrolladora full-stack, product manager y responsable de negocio.</p>
+        <div class="stack-grid">
+          <div class="stack-item"><span class="label">Arquitectura</span><span class="val">Dos aplicaciones desacopladas (web pública + panel de administración) sobre TanStack Start + React con SSR.</span></div>
+          <div class="stack-item"><span class="label">Backend y datos</span><span class="val">Supabase (PostgreSQL) con políticas de seguridad a nivel de fila (RLS) y control de acceso por roles.</span></div>
+          <div class="stack-item"><span class="label">Pagos</span><span class="val">Integración de Stripe (suscripciones, checkout, webhooks) con conciliación entre pasarela y base de datos propia.</span></div>
+          <div class="stack-item"><span class="label">Vídeo</span><span class="val">Arquitectura freemium con Bunny Stream, autenticación por token firmado server-side.</span></div>
+          <div class="stack-item"><span class="label">IA generativa</span><span class="val">Integración de Google Gemini para generación de avatares personalizados.</span></div>
+          <div class="stack-item"><span class="label">Producto y negocio</span><span class="val">Modelo freemium/suscripción, estrategia de precios multi-moneda y análisis de elegibilidad de pasarelas de pago por jurisdicción.</span></div>
+        </div>
+      </div>
+      <div class="project-footer">Este proyecto es la prueba práctica de mi perfil híbrido: no es un ejercicio académico, es un producto real con lógica de negocio compleja resuelta de principio a fin.</div>
+    </div>
+  </section>
+
+  <!-- TFM -->
+  <section id="tfm" class="reveal">
+    <div class="section-head"><span class="section-tag">05</span><h2>Trabajo de Fin de Máster (TFM)</h2></div>
+    <p class="tfm-summary"><strong style="color:var(--text)">Aplicación de un enfoque dual de Machine Learning para la optimización de la estrategia comercial en una agencia de viajes</strong> — VIU, 2025.</p>
+    <p class="tfm-summary">Diseño y desarrollo de principio a fin de un pipeline de Machine Learning sobre datos transaccionales reales de una agencia de viajes peruana (ventas de junio 2022 a diciembre 2024), combinando Aprendizaje No Supervisado y Supervisado para convertir el análisis en insights accionables para las áreas de Ventas y Marketing. Es el proyecto que mejor demuestra el puente entre Ciencia de Datos y Business Intelligence: no se queda en el modelo, sino que lo traduce en un dashboard que un equipo de negocio puede usar.</p>
+
+    <div class="tfm-cols" style="margin-top:28px;">
+      <div>
+        <h4>Enfoque técnico</h4>
+        <ul>
+          <li><strong style="color:var(--text)">ETL y gobierno del dato:</strong> limpieza, anonimización y homogenización de 6 archivos fuente en dos datasets de trabajo.</li>
+          <li><strong style="color:var(--text)">Ingeniería de características:</strong> One-Hot, Frequency y Target Encoding, codificación cíclica, PCA / Kernel PCA, balanceo con SmoteTomek.</li>
+          <li><strong style="color:var(--text)">No Supervisado:</strong> clustering K-means — Silhouette Score de 0,886 en el dataset de ventas.</li>
+          <li><strong style="color:var(--text)">Supervisado:</strong> 35 modelos evaluados (Random Forest, XGBoost, SVM, Naive Bayes, Árbol de Decisión, SGD, con y sin GridSearch/RandomizedSearchCV); 10 seleccionados tras validación cruzada.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Modelos finales</h4>
+        <ul>
+          <li>3 modelos de clasificación: potencial de cliente, preferencia de destino de playa, mes de viaje.</li>
+          <li>2 modelos de regresión: monto de venta, anticipación de reserva.</li>
+          <li>Comunicación a negocio mediante dashboards interactivos en Power BI orientados a decisiones de Ventas y Marketing.</li>
+          <li>Objetivos superados: Accuracy &gt;70% en clasificación · MAPE &lt;30% en regresión.</li>
+        </ul>
+      </div>
+    </div>
+
+    <table class="kpi-table">
+      <thead>
+        <tr><th>Modelo</th><th>Algoritmo</th><th>Métrica clave</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Predicción de cliente potencial</td><td>XGBoost</td><td class="metric">F1 98,99% · Acc 99,47%</td></tr>
+        <tr><td>Preferencia de destino playa</td><td>XGBoost</td><td class="metric">F1 92,77% · Acc 95,78%</td></tr>
+        <tr><td>Predicción de mes de viaje (multiclase)</td><td>XGBoost</td><td class="metric">Acc 90,16% · F1 90,06%</td></tr>
+        <tr><td>Predicción de monto de venta</td><td>XGBoost Regressor</td><td class="metric">R² 92,92% · MAPE 23,20%</td></tr>
+        <tr><td>Predicción de anticipación de reserva</td><td>Random Forest Regressor</td><td class="metric">R² 89,20% · MAPE 28,17%</td></tr>
+      </tbody>
+    </table>
+    <p class="tfm-note">Los resultados corresponden a validación sobre conjuntos de test/hold-out; el propio trabajo señala como siguiente paso natural su validación en producción con datos no vistos y mayor volumen — evaluar con honestidad el alcance real de un modelo es, para mí, parte de la metodología, no un matiz opcional.</p>
+  </section>
+
+  <!-- FORMACIÓN -->
+  <section class="reveal">
+    <div class="section-head"><span class="section-tag">06</span><h2>Formación académica</h2></div>
+    <div class="simple-list">
+      <div class="simple-item">
+        <span class="dot">◆</span>
+        <div class="content"><b>Máster Universitario en Big Data y Ciencia de Datos</b><span>Universidad Internacional de Valencia (VIU), España · 2024–2025 · Nota media: 8,42/10</span></div>
+      </div>
+      <div class="simple-item">
+        <span class="dot">◆</span>
+        <div class="content"><b>Ingeniería Empresarial y de Sistemas</b><span>Universidad San Ignacio de Loyola (USIL), Lima, Perú · 2018</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICACIONES -->
+  <section class="reveal">
+    <div class="section-head"><span class="section-tag">07</span><h2>Certificaciones destacadas</h2></div>
+    <div class="simple-list">
+      <div class="simple-item"><span class="dot">▸</span><div class="content"><b>Business for All Program</b><span>Harvard Business School / Santander Open Academy</span></div></div>
+      <div class="simple-item"><span class="dot">▸</span><div class="content"><b>Serie de certificados Harvard Business Impact</b><span>Desarrollo de un caso de negocios · Fundamentos de marketing · Fundamentos de finanzas · Enfoque en el cliente · Negociación · Medición del desempeño</span></div></div>
+      <div class="simple-item"><span class="dot">▸</span><div class="content"><b>Los 7 Hábitos de las Personas Altamente Efectivas</b><span>FranklinCovey</span></div></div>
+      <div class="simple-item"><span class="dot">▸</span><div class="content"><b>Certificación Internacional de Comunicación y Liderazgo</b><span>CALA Academy</span></div></div>
+      <div class="simple-item"><span class="dot">▸</span><div class="content"><b>Habilidades blandas</b><span>Inteligencia Emocional, Comunicación, Solución de Problemas, Resiliencia — VIU</span></div></div>
+      <div class="simple-item"><span class="dot">▸</span><div class="content"><b>Domina la IA con Gemini</b><span>Planeta Formación y Universidades / Google for Education</span></div></div>
+    </div>
+  </section>
+
+  <!-- COMPETENCIAS -->
+  <section class="reveal">
+    <div class="section-head"><span class="section-tag">08</span><h2>Competencias técnicas</h2></div>
+    <div class="skill-grid">
+      <div class="skill-cat"><span class="label">Datos y BI</span><span class="val">Power BI (DAX, Power Query) · Oracle DB · SQL · Excel avanzado</span></div>
+      <div class="skill-cat"><span class="label">Programación</span><span class="val">Python (Pandas, Scikit-learn) · R · JavaScript · PostgreSQL</span></div>
+      <div class="skill-cat"><span class="label">Machine Learning</span><span class="val">Clasificación, regresión, clustering, feature engineering</span></div>
+      <div class="skill-cat"><span class="label">IA Generativa</span><span class="val">Claude (Anthropic) · Google Gemini · Copilot · GPT</span></div>
+      <div class="skill-cat"><span class="label">Desarrollo de producto</span><span class="val">Supabase · Stripe · Vercel · Bunny Stream</span></div>
+      <div class="skill-cat"><span class="label">Automatización</span><span class="val">Bizagi · diseño de agentes IA</span></div>
+    </div>
+  </section>
+
+  <!-- IDIOMAS -->
+  <section class="reveal">
+    <div class="section-head"><span class="section-tag">09</span><h2>Idiomas</h2></div>
+    <div class="lang-row">
+      <div class="lang-item"><b>Español</b><span style="font-size:12px;color:var(--muted)">Nativo</span><div class="lang-bar"><span style="width:100%"></span></div></div>
+      <div class="lang-item"><b>Inglés</b><span style="font-size:12px;color:var(--muted)">B1</span><div class="lang-bar"><span style="width:55%"></span></div></div>
+      <div class="lang-item"><b>Catalán</b><span style="font-size:12px;color:var(--muted)">Básico</span><div class="lang-bar"><span style="width:25%"></span></div></div>
+    </div>
+  </section>
+
+  <!-- CTA / CONTACTO -->
+  <section id="contacto" class="cta reveal" style="border-top:1px solid var(--line);">
+    <span class="eyebrow">Conectemos</span>
+    <h2>¿Buscas un perfil de Ciencia de Datos que convierta modelos predictivos en decisiones de negocio?</h2>
+    <p>Profesional interesada en proyectos de Ciencia de Datos para perfil middle, con visión estratégica empresarial y financiera de 360°. Amplio interés en el desarrollo de análisis predictivos que aporten valor real a la toma de decisiones, a través de visualización interactiva de datos y la aplicación práctica de los hallazgos de cada experimento.</p>
+    <div class="cta-buttons">
+      <a class="btn btn-primary" href="mailto:karolin.cv@techprofile.site">✉ Escribir a karolin.cv@techprofile.site</a>
+      <a class="btn btn-ghost" href="tel:+34648504221">☎ +34 648 504 221</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/karolincv" target="_blank" rel="noopener">in LinkedIn</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Karolin Castañeda Vásquez — Sabadell / Barcelona, España · Actualizado 2026
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el=>io.observe(el));
+
+  // KPI count-up
+  const kpiNums = document.querySelectorAll('.kpi-num');
+  const animated = new WeakSet();
+  const kpiIo = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting && !animated.has(entry.target)){
+        animated.add(entry.target);
+        const el = entry.target;
+        const unitEl = el.querySelector('.unit');
+        const unitText = unitEl ? unitEl.textContent : '';
+        const raw = el.childNodes[0].textContent.trim();
+        const target = parseFloat(raw);
+        const isDecimal = raw.includes('.');
+        let current = 0;
+        const steps = 30;
+        const inc = target / steps;
+        let i = 0;
+        const timer = setInterval(()=>{
+          i++;
+          current += inc;
+          if(i >= steps){ current = target; clearInterval(timer); }
+          el.childNodes[0].textContent = isDecimal ? current.toFixed(2) : Math.round(current);
+        }, 25);
+      }
+    });
+  }, { threshold: 0.4 });
+  kpiNums.forEach(el=>kpiIo.observe(el));
+</script>
+
+</body>
+</html>

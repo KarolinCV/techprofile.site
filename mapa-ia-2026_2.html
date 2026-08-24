@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa de la IA Generativa 2026 — Curso para principiantes</title>
+<style>
+:root{
+  --bg:#0d0d0e; --surface:#1a1a19; --surface-2:#222229; --line:rgba(255,255,255,.10);
+  --ink:#ffffff; --ink-2:#c7c6bd; --ink-muted:#8d8c85;
+  --blue:#3987e5; --orange:#d95926; --aqua:#199e70; --yellow:#c98500;
+  --magenta:#d55181; --green:#3fae3f; --violet:#9085e9; --red:#e66767;
+  --grad:linear-gradient(120deg,var(--blue),var(--violet));
+  --good:#0ca30c; --warning:#fab219; --critical:#e66767;
+  --font:-apple-system,"Segoe UI",system-ui,Roboto,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font);}
+a{color:var(--blue);}
+::selection{background:var(--violet); color:#fff;}
+
+header.top{padding:22px 32px 18px; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(13,13,14,.92); backdrop-filter:blur(8px); z-index:20;}
+.brandblock{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between;}
+.brandblock .left{display:flex; align-items:center; gap:12px;}
+.sq{width:14px; height:14px; border-radius:4px; background:var(--grad); flex:none;}
+.brandblock h1{font-size:17px; margin:0; font-weight:800;}
+.brandblock p{margin:2px 0 0; font-size:12.5px; color:var(--ink-muted);}
+.updated-badge{font-size:11.5px; font-weight:700; color:#4fd6a4; background:rgba(25,158,112,.15); border:1px solid rgba(25,158,112,.3); padding:5px 12px; border-radius:999px; white-space:nowrap;}
+
+nav.tabs{display:flex; gap:6px; padding:12px 32px; border-bottom:1px solid var(--line); overflow-x:auto; background:#0a0a0b; position:sticky; top:73px; z-index:19;}
+.tab-btn{flex:none; background:var(--surface); border:1px solid var(--line); color:var(--ink-2); font-size:12.5px; font-weight:600; padding:8px 15px; border-radius:999px; cursor:pointer; white-space:nowrap;}
+.tab-btn.active{background:var(--grad); color:#fff; border-color:transparent;}
+.tab-btn:hover:not(.active){border-color:var(--blue); color:var(--ink);}
+
+main{max-width:1180px; margin:0 auto; padding:34px 32px 80px;}
+.panel{display:none;}
+.panel.active{display:block;}
+
+.tag{display:inline-flex; align-items:center; gap:8px; font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); padding:5px 12px; border:1px solid var(--line); border-radius:999px; margin-bottom:14px; background:var(--surface);}
+.tag .dot{width:7px; height:7px; border-radius:50%; background:var(--blue);}
+h2.pagetitle{font-size:clamp(24px,3vw,32px); margin:0 0 10px; font-weight:800; letter-spacing:-.01em;}
+.pagelead{color:var(--ink-2); font-size:15px; line-height:1.6; max-width:820px; margin:0 0 28px;}
+.disclaimer{background:rgba(250,178,25,.08); border:1px solid rgba(250,178,25,.3); border-radius:12px; padding:14px 18px; font-size:13px; color:#e8c988; line-height:1.5; margin-bottom:26px; max-width:900px;}
+.disclaimer b{color:#fddb96;}
+
+/* ---- company grid ---- */
+.company-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:10px;}
+.ccard{background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--c); border-radius:14px; padding:20px 22px;}
+.ccard .chead{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px;}
+.ccard h3{margin:0; font-size:17px; font-weight:800;}
+.ccard .product{font-size:12px; color:var(--ink-muted); margin-top:2px;}
+.badge-date{font-size:10.5px; font-weight:700; color:var(--c); background:color-mix(in srgb, var(--c) 18%, transparent); padding:4px 9px; border-radius:999px; white-space:nowrap;}
+.ccard .flagship{font-size:14px; font-weight:700; margin:8px 0 4px;}
+.ccard .flagship span{color:var(--ink-muted); font-weight:500; font-size:12px;}
+.ccard .spec{font-size:13px; color:var(--ink-2); line-height:1.55; margin:0 0 10px;}
+.ccard .models{font-size:12px; color:var(--ink-muted); line-height:1.6; border-top:1px solid var(--line); padding-top:10px;}
+.ccard .models b{color:var(--ink-2); font-weight:600;}
+.ccard .note{margin-top:10px; font-size:11.5px; color:#e8c988; display:flex; gap:6px; align-items:flex-start;}
+
+/* ---- tables ---- */
+table{border-collapse:collapse; width:100%; font-size:13.5px;}
+table th{text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-muted); padding:10px 12px; border-bottom:1px solid var(--line); font-weight:700;}
+table td{padding:11px 12px; border-bottom:1px solid var(--line); color:var(--ink-2); vertical-align:top;}
+table td.ink{color:var(--ink); font-weight:600;}
+table tr:hover td{background:rgba(255,255,255,.02);}
+.section-block{margin-bottom:42px;}
+.section-block h3.sub{font-size:13px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-muted); margin:0 0 14px; font-weight:800; display:flex; align-items:center; gap:10px;}
+.section-block h3.sub::after{content:""; flex:1; height:1px; background:var(--line);}
+.table-wrap{background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; padding:4px 16px;}
+
+/* ---- filters ---- */
+.filterbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
+.fbtn{background:var(--surface); border:1px solid var(--line); color:var(--ink-2); font-size:12px; font-weight:600; padding:7px 13px; border-radius:999px; cursor:pointer;}
+.fbtn.active{background:var(--grad); color:#fff; border-color:transparent;}
+#modelSearch{flex:1; min-width:200px; background:var(--surface); border:1px solid var(--line); border-radius:10px; color:var(--ink); padding:9px 14px; font-size:13.5px; font-family:var(--font);}
+
+/* ---- benchmark bars ---- */
+.barchart{display:flex; flex-direction:column; gap:10px; max-width:820px;}
+.barrow{display:grid; grid-template-columns:180px 1fr 70px; align-items:center; gap:12px; font-size:13px;}
+.barrow .rank{color:var(--ink-muted); font-size:11px; width:14px;}
+.barrow .name{color:var(--ink); font-weight:600; display:flex; gap:8px; align-items:center;}
+.barrow .track{background:var(--surface-2); border-radius:6px; height:20px; overflow:hidden; position:relative;}
+.barrow .fill{height:100%; border-radius:6px; background:var(--grad);}
+.barrow .score{text-align:right; color:var(--ink-muted); font-variant-numeric:tabular-nums; font-size:12.5px;}
+
+.cardgrid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+.gcard{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+.gcard .k{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--blue); margin-bottom:6px;}
+.gcard h4{margin:0 0 6px; font-size:14.5px;}
+.gcard p{margin:0; font-size:12.5px; color:var(--ink-2); line-height:1.5;}
+
+/* ---- concepts comparison ---- */
+.concept-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:16px;}
+.concept-card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px;}
+.concept-card .plat{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; margin-bottom:12px;}
+.concept-card .item{margin-bottom:14px;}
+.concept-card .item b{display:block; font-size:13.5px; margin-bottom:3px;}
+.concept-card .item span{font-size:12.5px; color:var(--ink-2); line-height:1.5;}
+
+/* ---- steps ---- */
+.steps-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+.stepcard{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px;}
+.stepcard h4{margin:0 0 4px; font-size:15px;}
+.stepcard .age{font-size:11.5px; color:var(--ink-muted); margin-bottom:12px;}
+.stepcard ol{margin:0; padding-left:18px; font-size:13px; color:var(--ink-2); line-height:1.7;}
+
+/* ---- pricing table south america ---- */
+.sa-highlight{background:rgba(25,158,112,.1); border:1px solid rgba(25,158,112,.3); border-radius:12px; padding:16px 20px; margin-bottom:20px; font-size:13.5px; color:#bdeeda; line-height:1.6;}
+.sa-highlight b{color:#4fd6a4;}
+
+/* sources */
+.source-list{columns:2; column-gap:32px; font-size:12.5px; color:var(--ink-2); line-height:1.9;}
+.unverified-list li{margin-bottom:8px; font-size:13px; color:var(--ink-2); line-height:1.5;}
+.unverified-list li b{color:#e8c988;}
+
+footer.bottom{max-width:1180px; margin:20px auto 0; padding:0 32px 40px; font-size:11.5px; color:var(--ink-muted); line-height:1.6;}
+
+/* ---- author signature ---- */
+.sig-block{background:var(--surface); border:1px solid var(--line); border-top:3px solid transparent; border-image:var(--grad) 1; border-radius:14px; padding:20px 24px; margin-bottom:22px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;}
+.sig-id{display:flex; flex-direction:column; gap:3px;}
+.sig-name{font-size:15px; font-weight:800; color:var(--ink); letter-spacing:-.01em;}
+.sig-role{font-size:12px; font-weight:600; color:var(--violet);}
+.sig-contact{font-size:12px; color:var(--ink-2); margin-top:4px;}
+.sig-contact span{white-space:nowrap;}
+.sig-contact span + span{margin-left:14px;}
+.sig-ai{flex:none; font-size:11px; font-weight:700; color:#4fd6a4; background:rgba(25,158,112,.12); border:1px solid rgba(25,158,112,.3); padding:7px 14px; border-radius:999px; white-space:nowrap;}
+
+@media (max-width:820px){
+  .company-grid, .cardgrid3, .concept-grid, .steps-grid{grid-template-columns:1fr;}
+  .source-list{columns:1;}
+  .sig-block{flex-direction:column; align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brandblock">
+    <div class="left">
+      <span class="sq"></span>
+      <div>
+        <h1>Mapa de la IA Generativa — Curso para principiantes</h1>
+        <p>Guía curada por una especialista en Ciencia de Datos e IA: de tu primera cuenta a dominar el panorama completo de la IA generativa en 2026</p>
+      </div>
+    </div>
+    <span class="updated-badge">● Actualizado: agosto 2026</span>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab-btn active" data-panel="inicio">Empieza aquí</button>
+  <button class="tab-btn" data-panel="prompts">Cómo escribir prompts</button>
+  <button class="tab-btn" data-panel="directorio">Directorio de IAs</button>
+  <button class="tab-btn" data-panel="modelos">Todos los modelos</button>
+  <button class="tab-btn" data-panel="benchmarks">Benchmarks</button>
+  <button class="tab-btn" data-panel="conceptos">Proyectos, Gems, Skills y Conectores</button>
+  <button class="tab-btn" data-panel="acciones">Qué puedes hacer con la IA</button>
+  <button class="tab-btn" data-panel="consolidadoras">Plataformas consolidadoras</button>
+  <button class="tab-btn" data-panel="precios">Precios y Sudamérica</button>
+  <button class="tab-btn" data-panel="fuentes">Fuentes y fiabilidad</button>
+</nav>
+
+<main>
+
+  <!-- ===================== INICIO ===================== -->
+  <div class="panel active" id="panel-inicio">
+    <div class="tag"><span class="dot"></span>Módulo 0</div>
+    <h2 class="pagetitle">Antes de nada: crea tu primera cuenta</h2>
+    <p class="pagelead">Las tres plataformas más usadas — ChatGPT, Claude y Gemini — se pueden probar gratis. No hace falta tarjeta de crédito para empezar. Elige una, sigue los pasos, y en 2 minutos estás chateando con una IA.</p>
+
+    <div class="steps-grid">
+      <div class="stepcard">
+        <h4>ChatGPT (OpenAI)</h4>
+        <div class="age">Edad mínima: 13 años (13-17 con permiso de un adulto)</div>
+        <ol>
+          <li>Entra a <b>chatgpt.com</b></li>
+          <li>Pulsa "Sign up" / "Regístrate"</li>
+          <li>Usa tu email, o entra directo con Google o Apple (más rápido)</li>
+          <li>Confirma tu correo con el código que te envían</li>
+          <li>Ya estás en el plan Free — empieza a escribir</li>
+        </ol>
+      </div>
+      <div class="stepcard">
+        <h4>Claude (Anthropic)</h4>
+        <div class="age">Edad mínima reportada: 18 años ⚠ (no confirmado en fuente oficial)</div>
+        <ol>
+          <li>Entra a <b>claude.ai</b></li>
+          <li>Ingresa tu email o entra con Google</li>
+          <li>Recibes un código de acceso (no hace falta contraseña)</li>
+          <li>Confirma el código y listo</li>
+          <li>El plan Pro (pago) se activa después, desde tu cuenta ya creada</li>
+        </ol>
+      </div>
+      <div class="stepcard">
+        <h4>Gemini (Google)</h4>
+        <div class="age">Edad mínima: 13 años (14 en Chile, Colombia, Perú y Venezuela)</div>
+        <ol>
+          <li>Si ya tienes Gmail, no necesitas crear nada nuevo</li>
+          <li>Entra a <b>gemini.google.com</b></li>
+          <li>Inicia sesión con tu Cuenta de Google</li>
+          <li>Si no tienes Gmail, créala gratis en accounts.google.com primero</li>
+          <li>Acceso inmediato al plan gratuito</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="disclaimer" style="margin-top:28px;">
+      <b>Web vs. app móvil:</b> es la misma cuenta en ambas. La app añade inicio de sesión biométrico, notificaciones y modo de voz; la web suele ser más cómoda para configurar todo la primera vez, sobre todo en una pantalla grande.
+    </div>
+
+    <div class="section-block" style="margin-top:10px;">
+      <h3 class="sub">Qué vas a encontrar en esta guía</h3>
+      <div class="cardgrid3">
+        <div class="gcard"><div class="k">Directorio</div><h4>Todas las IAs, explicadas</h4><p>13 empresas, sus productos, modelos insignia y en qué es mejor cada una.</p></div>
+        <div class="gcard"><div class="k">Modelos</div><h4>Tabla completa y filtrable</h4><p>Cada modelo con su fecha de lanzamiento y especialidad, para buscar rápido.</p></div>
+        <div class="gcard"><div class="k">Benchmarks</div><h4>Quién es "mejor" y por qué</h4><p>El ranking actual explicado en lenguaje simple, sin jerga técnica.</p></div>
+        <div class="gcard"><div class="k">Conceptos</div><h4>Proyectos, Gems, Skills, Conectores</h4><p>Las funciones avanzadas de cada plataforma, comparadas lado a lado.</p></div>
+        <div class="gcard"><div class="k">Consolidadoras</div><h4>Un lugar para usarlas todas</h4><p>Plataformas que dan acceso a varias IAs distintas sin pagar cada suscripción por separado.</p></div>
+        <div class="gcard"><div class="k">Precios</div><h4>Cuánto cuesta en Sudamérica</h4><p>Qué planes tienen descuento real en la región y cuáles se cobran en dólares.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== PROMPTS ===================== -->
+  <div class="panel" id="panel-prompts">
+    <div class="tag"><span class="dot"></span>Fundamentos</div>
+    <h2 class="pagetitle">Cómo escribir un buen prompt</h2>
+    <p class="pagelead">Un prompt es simplemente lo que le escribes a la IA. Pero hay una gran diferencia entre escribir cualquier cosa y escribir algo que te dé exactamente la respuesta que necesitas. Aquí están las reglas básicas, explicadas sin jerga.</p>
+
+    <div class="cardgrid3" id="promptBasicsGrid" style="margin-bottom:34px;"></div>
+
+    <div class="section-block">
+      <h3 class="sub">La estructura de un buen prompt: Contexto + Instrucción + Restricciones</h3>
+      <div class="concept-grid" id="promptRulesGrid"></div>
+    </div>
+
+    <div class="disclaimer" style="background:rgba(230,103,103,.08); border-color:rgba(230,103,103,.35); color:#f3b8b8;">
+      <b>⚠ La regla más importante: dile explícitamente que NO invente ("que no alucine").</b><br>
+      Las IA generativas a veces inventan datos, fechas, citas o fuentes que suenan totalmente creíbles pero son falsas — esto se llama <b style="color:#fff;">"alucinación"</b>. Nunca asumas que un dato es cierto solo porque la IA lo dice con seguridad. Agrega siempre algo como: <i>"Si no estás segura o no tienes información verificada, dime que no lo sabes en vez de inventar una respuesta. Cita tus fuentes cuando sea posible."</i>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Fiabilidad de los datos y las fuentes</h3>
+      <div class="cardgrid3" id="reliabilityGrid"></div>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Ejemplos: prompt débil vs. prompt bien construido</h3>
+      <div id="promptExamples"></div>
+    </div>
+  </div>
+
+  <!-- ===================== DIRECTORIO ===================== -->
+  <div class="panel" id="panel-directorio">
+    <div class="tag"><span class="dot"></span>Módulo 1</div>
+    <h2 class="pagetitle">Directorio de IAs — quién es quién en 2026</h2>
+    <p class="pagelead">13 empresas activas en la carrera de la IA generativa, su producto principal, el modelo insignia actual y en qué destaca cada una.</p>
+    <div class="company-grid" id="companyGrid"></div>
+  </div>
+
+  <!-- ===================== MODELOS ===================== -->
+  <div class="panel" id="panel-modelos">
+    <div class="tag"><span class="dot"></span>Referencia</div>
+    <h2 class="pagetitle">Todos los modelos, en una tabla</h2>
+    <p class="pagelead">Busca por nombre de empresa, modelo o especialidad. Ordenado del lanzamiento más reciente al más antiguo.</p>
+    <div class="filterbar">
+      <input id="modelSearch" type="text" placeholder="Buscar (ej. 'código', 'Gemini', 'gratis')...">
+    </div>
+    <div class="table-wrap">
+      <table id="modelsTable">
+        <thead><tr><th>Empresa</th><th>Modelo</th><th>Lanzamiento</th><th>Especialidad</th><th>Contexto</th></tr></thead>
+        <tbody id="modelsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===================== BENCHMARKS ===================== -->
+  <div class="panel" id="panel-benchmarks">
+    <div class="tag"><span class="dot"></span>Módulo 2</div>
+    <h2 class="pagetitle">Benchmarks — cómo se mide "cuál es mejor"</h2>
+    <p class="pagelead">Ninguna IA es "la mejor" en todo. Los benchmarks miden habilidades específicas — así se comparan de forma justa.</p>
+
+    <div class="disclaimer">⚠ Los puntajes de Arena (antes LMArena/Chatbot Arena) cambian cada semana según el voto de miles de personas. Estas cifras son una fotografía de agosto de 2026 — antes de usarlas en clase, confirma el ranking actual en <b>arena.ai/leaderboard</b>.</div>
+
+    <div class="section-block">
+      <h3 class="sub">Ranking Arena.ai (texto) — top 10, agosto 2026</h3>
+      <div class="barchart" id="arenaChart"></div>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Glosario de benchmarks — explicado sin jerga</h3>
+      <div class="cardgrid3" id="benchGlossary"></div>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Quién lidera cada benchmark (referencia, no 100% verificado)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Benchmark</th><th>Mide</th><th>Líder actual</th><th>Puntaje</th></tr></thead>
+          <tbody id="benchLeadersBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CONCEPTOS ===================== -->
+  <div class="panel" id="panel-conceptos">
+    <div class="tag"><span class="dot"></span>Módulo 3</div>
+    <h2 class="pagetitle">Proyectos, Gems, Skills y Conectores</h2>
+    <p class="pagelead">Cada plataforma le pone un nombre distinto a conceptos parecidos. Aquí están comparados lado a lado para que no te pierdas al cambiar de una a otra.</p>
+
+    <div class="concept-grid" id="conceptGrid"></div>
+
+    <div class="section-block" style="margin-top:8px;">
+      <h3 class="sub">¿Qué es MCP (Model Context Protocol)?</h3>
+      <div class="gcard" style="max-width:820px;">
+        <p style="font-size:13.5px;">Es un estándar abierto, creado por Anthropic, que funciona como un <b style="color:var(--ink);">"enchufe universal"</b> entre una IA y herramientas externas (bases de datos, apps, archivos). Antes, cada conexión había que programarla a medida; con MCP, cualquier herramienta compatible se conecta a cualquier IA compatible sin integración especial. Es la razón por la que hoy una IA puede leer tu Google Drive, tu Slack o una base de datos sin que un desarrollador tenga que construir ese puente desde cero cada vez.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ACCIONES ===================== -->
+  <div class="panel" id="panel-acciones">
+    <div class="tag"><span class="dot"></span>Práctica</div>
+    <h2 class="pagetitle">Qué puedes hacer con la IA — más allá de chatear</h2>
+    <p class="pagelead">Escribir y recibir respuestas es solo el comienzo. Esto es lo que puedes construir y automatizar con las herramientas de IA de 2026.</p>
+
+    <div class="cardgrid3" id="actionTypesGrid" style="margin-bottom:34px;"></div>
+
+    <div class="section-block">
+      <h3 class="sub">Guía paso a paso: crea tu primer "artefacto" en Claude (explicado bien fácil)</h3>
+      <p class="pagelead" style="margin-bottom:18px;">Un "artefacto" es como una mini-aplicación que la IA construye para ti dentro del chat: una página web, un juego, una calculadora, un gráfico... y la ves funcionando al instante, sin instalar nada.</p>
+      <div class="steps-grid" id="artifactSteps"></div>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Analiza cuentas, datos, perfiles y negocios con IA</h3>
+      <div class="gcard" style="max-width:900px; margin-bottom:14px;">
+        <p style="font-size:13.5px;">Herramientas como <b style="color:var(--ink);">Perplexity</b> no solo responden preguntas — pueden investigar una empresa, un perfil público, un mercado o un set de datos y devolverte un resumen con fuentes citadas. Súbele un Excel, un PDF de estados financieros, o pídele que investigue a un competidor, y te arma un informe con enlaces verificables.</p>
+      </div>
+      <div class="table-wrap">
+        <table><thead><tr><th>Quiero...</th><th>Herramienta recomendada</th><th>Cómo</th></tr></thead>
+        <tbody id="analysisBody"></tbody></table>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Crear animaciones y vídeo con Qwen (familia Wan de Alibaba)</h3>
+      <div class="gcard" style="max-width:900px;">
+        <p style="font-size:13.5px;">Lo que en el chat de Qwen aparece como "generar vídeo" corre por debajo sobre <b style="color:var(--ink);">Wan</b>, el modelo de vídeo de Alibaba. La versión pública más reciente es <b style="color:var(--ink);">Wan3.0</b> (beta, 10 ago 2026): clips de hasta 30 segundos, entrada de texto, imagen, audio, PDF o incluso una presentación, sincronización de labios y voz multilingüe. La generación 2.6/2.7 (con funciones como convertir una foto en vídeo o mantener el mismo personaje en varias escenas) ya está integrada dentro de la app de Qwen. Se accede desde <b style="color:var(--ink);">wan.video</b>, Alibaba Cloud Model Studio, o la propia app de Qwen.</p>
+        <div class="note" style="margin-top:10px;">⚠ Es la opción más barata del mercado por lejos, pero en calidad cinematográfica todavía queda por detrás de Sora 2 (OpenAI) y Veo (Google) según comparativas de terceros — el precio exacto por segundo de vídeo no está confirmado en tarifa oficial.</div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Nano Banana — el generador de imágenes de Google</h3>
+      <div class="gcard" style="max-width:900px;">
+        <p style="font-size:13.5px;">"Nano Banana" es el apodo con el que se hizo viral el modelo de imágenes de Google integrado en Gemini. La versión actual (feb 2026) es <b style="color:var(--ink);">Gemini 3.1 Flash Image ("Nano Banana 2")</b>, que mejoró a "Nano Banana Pro" (nov 2025). Sus puntos fuertes: escribe texto legible dentro de la imagen (carteles, logos con letras), mantiene el mismo personaje u objeto en varias imágenes seguidas, y edita fotos con instrucciones en lenguaje simple ("quítale el fondo", "cámbiale la chaqueta a roja"). Se usa gratis dentro de la app de Gemini, en Google Search (Lens / Modo IA) y en Google AI Studio.</p>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">El ecosistema de Google, más allá de Gemini</h3>
+      <div class="cardgrid3" id="googleEcoGrid"></div>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Microsoft Copilot en Word, Excel y PowerPoint</h3>
+      <div class="concept-grid" id="copilotGrid"></div>
+      <div class="disclaimer">⚠ Copilot 365 completo cuesta 30 USD/usuario/mes, como licencia adicional sobre tu plan de Microsoft 365 — no se encontró un precio diferenciado confirmado para Sudamérica. El modelo detrás de Copilot combina GPT-5.6 de OpenAI con modelos propios de Microsoft (familia MAI); Microsoft está migrando gradualmente hacia sus propios modelos, pero el reparto exacto por app no es público.</div>
+    </div>
+  </div>
+
+  <!-- ===================== CONSOLIDADORAS ===================== -->
+  <div class="panel" id="panel-consolidadoras">
+    <div class="tag"><span class="dot"></span>Módulo 4</div>
+    <h2 class="pagetitle">Plataformas consolidadoras</h2>
+    <p class="pagelead">En vez de pagar 3-4 suscripciones distintas, estas plataformas te dan acceso a varias IAs desde un solo lugar.</p>
+    <div class="cardgrid3" id="consolidatorGrid" style="margin-bottom:20px;"></div>
+    <div class="disclaimer">⚠ <b>HuggingChat cerró el 1 de julio de 2025</b> y, hasta la fecha de esta guía, Hugging Face no ha confirmado un sucesor activo. No la seleccionamos como opción recomendada.</div>
+  </div>
+
+  <!-- ===================== PRECIOS ===================== -->
+  <div class="panel" id="panel-precios">
+    <div class="tag"><span class="dot"></span>Módulo 5</div>
+    <h2 class="pagetitle">Precios — con foco en Sudamérica</h2>
+    <p class="pagelead">Los precios en dólares son el punto de partida — lo que realmente pagas depende de impuestos locales y el tipo de cambio del día.</p>
+
+    <div class="sa-highlight">
+      <b>El único descuento regional confirmado:</b> OpenAI lanzó <b>ChatGPT Go a 6 USD/mes en Sudamérica</b> (17 de enero de 2026) — frente a 8 USD/mes en el resto del mundo. Es un plan intermedio entre Free y Plus. Para Claude Pro y Google AI Pro no se encontró un descuento regional confirmado — se cobran en USD estándar (20 USD/mes) y el monto final en tu moneda local varía por impuestos y tipo de cambio.
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:24px;">
+      <table>
+        <thead><tr><th>Plataforma</th><th>Plan de entrada</th><th>Precio global</th><th>Precio en Sudamérica</th><th>Notas</th></tr></thead>
+        <tbody id="pricingBody"></tbody>
+      </table>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Notas por país (referencia, verificar antes de pagar)</h3>
+      <div class="cardgrid3" id="countryNotes"></div>
+    </div>
+
+    <div class="disclaimer">Método de pago típico en la región: tarjeta de crédito/débito internacional. En Argentina, algunas guías mencionan tarjetas virtuales (Mercado Pago, Brubank) como alternativa. Revisa siempre el resumen de tu tarjeta: el monto en moneda local puede variar mes a mes aunque el precio en USD no cambie.</div>
+  </div>
+
+  <!-- ===================== FUENTES ===================== -->
+  <div class="panel" id="panel-fuentes">
+    <div class="tag"><span class="dot"></span>Transparencia</div>
+    <h2 class="pagetitle">Fuentes y notas de fiabilidad</h2>
+    <p class="pagelead">Este contenido se construyó con búsquedas web de agosto de 2026, no solo con conocimiento entrenado (que tiene un corte de mayo de 2025). Aun así, algunos datos vienen de fuentes secundarias y no se pudieron verificar al 100% — se listan aquí para que los confirmes antes de usarlos en una decisión importante.</p>
+
+    <div class="section-block">
+      <h3 class="sub">⚠ Datos no verificados al 100% — confirmar antes de citar como hecho</h3>
+      <ul class="unverified-list" id="unverifiedList"></ul>
+    </div>
+
+    <div class="section-block">
+      <h3 class="sub">Fuentes principales consultadas</h3>
+      <ul class="source-list" id="sourcesList"></ul>
+    </div>
+  </div>
+
+</main>
+
+<footer class="bottom">
+  <div class="sig-block">
+    <div class="sig-id">
+      <div class="sig-name">Karolin Castañeda Vásquez</div>
+      <div class="sig-role">Máster en Big Data &amp; Ciencia de Datos / IA Engineer</div>
+      <div class="sig-contact"><span>📱 +34 648 504 221</span><span>✉ Karolin.cv@techprofile.site</span><span>in linkedin.com/in/karolincv</span></div>
+    </div>
+    <div class="sig-ai">✦ Contenido co-creado con IA Claude Sonnet 5</div>
+  </div>
+  Guía construida para el curso de IA generativa para principiantes. Los precios, modelos y rankings de IA cambian constantemente — trata este documento como una fotografía de agosto de 2026, no como una fuente permanente. Antes de tomar una decisión de compra importante, confirma los datos clave directamente en la web oficial de cada proveedor.
+</footer>
+
+<script>
+/* ================= DATA ================= */
+
+const COMPANIES = [
+  {name:"OpenAI", product:"ChatGPT", color:"var(--aqua)",
+    flagship:"GPT-5.6 (“Sol”)", flagshipDate:"jul 2026",
+    spec:"El ecosistema más amplio: navegación web, Sora (vídeo), modo Agente, Deep Research y Custom GPTs. La opción por defecto para la mayoría de gente.",
+    models:"GPT-5.6 Sol · GPT-5.5 · GPT-5.2-Codex · o3 / o3-pro / o4-mini · GPT-4o (legado)",
+    note:"El nombre “Sol” para GPT-5.6 aparece en fuentes secundarias, no confirmado en anuncio oficial de OpenAI."},
+  {name:"Anthropic", product:"Claude", color:"var(--orange)",
+    flagship:"Claude Fable 5", flagshipDate:"9 jun 2026",
+    spec:"Domina los rankings de calidad de texto (7 de los 10 primeros puestos en Arena.ai). Referencia en programación agéntica (Claude Code), uso de herramientas y documentos largos.",
+    models:"Claude Fable 5 · Claude Opus 5 · Claude Sonnet 5 · Claude Haiku 4.5",
+    note:null},
+  {name:"Google", product:"Gemini", color:"var(--blue)",
+    flagship:"Gemini 3.1 Pro", flagshipDate:"19 feb 2026",
+    spec:"Contexto larguísimo (hasta 2M tokens), integración nativa en Gmail/Docs/Sheets, y el ecosistema multimodal más completo (imagen, vídeo, voz en tiempo real).",
+    models:"Gemini 3.1 Pro · Gemini 3 Deep Think · familia 3.x Flash · Gemini Nano (on-device)",
+    note:"Project Mariner (agente de navegador) cerró el 4 de mayo de 2026 — fue reemplazado por Gemini Agent."},
+  {name:"xAI", product:"Grok", color:"var(--red)",
+    flagship:"Grok 4.5", flagshipDate:"8 jul 2026",
+    spec:"Integración nativa con X (Twitter): acceso a información en tiempo real y generación de imagen/vídeo vía Grok Imagine. Fuerte en código y trabajo agéntico.",
+    models:"Grok 4.5 · Grok 4.3 · Grok 4.1 Fast · Grok 4 Heavy · Grok 5 (en entrenamiento, sin fecha confirmada)",
+    note:"Grok ha estado en el centro de una polémica pública por generación de deepfakes — tenlo en cuenta si lo recomiendas a un público general."},
+  {name:"Meta", product:"Meta AI / Llama", color:"var(--violet)",
+    flagship:"Muse Spark", flagshipDate:"abr 2026",
+    spec:"Meta AI es gratis e integrada en Facebook, Instagram, WhatsApp y Messenger — la IA más “omnipresente” para el usuario promedio en redes sociales.",
+    models:"Muse Spark (propietario) · Llama 4 Maverick / Scout (open-weight, contexto hasta 10M)",
+    note:"Giro estratégico importante: Muse Spark es cerrado/propietario, rompiendo la tradición 100% open-source de Llama. No está confirmado si habrá nuevos Llama abiertos."},
+  {name:"DeepSeek", product:"DeepSeek Chat", color:"var(--yellow)",
+    flagship:"DeepSeek V4-Pro", flagshipDate:"12 ago 2026",
+    spec:"La opción más barata del mercado por lejos (desde 0,14 USD por millón de tokens) sin sacrificar demasiado rendimiento — el “momento DeepSeek” de 2025 cambió la industria.",
+    models:"DeepSeek V4-Pro · DeepSeek V4-Flash (pesos abiertos, licencia MIT) · V3.2-Speciale",
+    note:null},
+  {name:"Mistral AI", product:"Le Chat", color:"var(--aqua)",
+    flagship:"Mistral Large 3", flagshipDate:"dic 2025",
+    spec:"La alternativa europea: modelos open-weight (Apache 2.0), enfoque en soberanía de datos, infraestructura en la UE. Le Chat incluye modo “Vibe” de agentes de código autónomos.",
+    models:"Mistral Large 3 · Mistral Small 4 · familia Ministral 3 · Voxtral (voz)",
+    note:null},
+  {name:"Alibaba", product:"Qwen", color:"var(--magenta)",
+    flagship:"Qwen3.8-Max", flagshipDate:"3 ago 2026",
+    spec:"El modelo chino más grande de 2026 (2,4 billones de parámetros). Alibaba lo posiciona “justo detrás” de los líderes occidentales — cifra no verificada de forma independiente.",
+    models:"Qwen3.8-Max (API) · Qwen3.8-27B (open-weight, Apache 2.0)",
+    note:null},
+  {name:"Amazon", product:"Alexa+ / Nova", color:"var(--green)",
+    flagship:"Nova 2 / Alexa+", flagshipDate:"2026",
+    spec:"Alexa+ es gratis para miembros Prime, y desde el 19 de agosto de 2026 también gratis en Fire TV sin necesidad de Prime. Amazon frenó el desarrollo de varios modelos Nova para enfocarse en un nuevo grupo de investigación.",
+    models:"Nova 2 Lite / Sonic · Nova Forge · Nova Act (agentes)",
+    note:"Amazon detuvo el desarrollo activo de Nova Premier, Omni, Reel y Canvas. Un nuevo modelo frontera está en desarrollo para fines de 2026 (sin fecha confirmada)."},
+  {name:"Moonshot AI", product:"Kimi", color:"var(--blue)",
+    flagship:"Kimi K3", flagshipDate:"16 jul 2026",
+    spec:"El modelo de pesos abiertos más grande del mundo en el momento de su lanzamiento (2,7 billones de parámetros). Moonshot afirma competir con Claude Opus/Fable — no verificado de forma independiente.",
+    models:"Kimi K3 (open-weight)",
+    note:null},
+  {name:"Zhipu / Z.ai", product:"GLM", color:"var(--orange)",
+    flagship:"GLM-5.2", flagshipDate:"2026",
+    spec:"Otro competidor chino en la carrera de coste-eficiencia, en la misma liga que DeepSeek y Kimi por precio.",
+    models:"GLM-5.2 (~4,40 USD por millón de tokens)",
+    note:"Datos limitados verificados en esta investigación — confirmar antes de profundizar en clase."},
+  {name:"Perplexity", product:"Perplexity / Sonar", color:"var(--aqua)",
+    flagship:"Sonar", flagshipDate:"2026",
+    spec:"No es solo un chatbot: es un buscador con IA que cita sus fuentes. El plan Pro también deja elegir entre modelos de OpenAI, Anthropic y Google — funciona como agregador además de tener su propio modelo.",
+    models:"Sonar (modelo propio) + acceso a GPT / Claude / Gemini según plan",
+    note:null},
+  {name:"Cohere", product:"Command", color:"var(--violet)",
+    flagship:"Command A Plus", flagshipDate:"2025-2026",
+    spec:"Enfoque 100% empresarial: despliegue privado/soberano de modelos para grandes organizaciones, en vez de un chatbot de consumo masivo.",
+    models:"Command A Plus · Model Vault (infraestructura privada)",
+    note:"Se rumorea una posible salida a bolsa en 2026 — no confirmada con fecha."},
+];
+
+const MODELS = [
+  {c:"Anthropic", m:"Claude Opus 5", d:"2026-07-24", spec:"Codificación agéntica compleja, trabajo empresarial", ctx:"1M tokens"},
+  {c:"xAI", m:"Grok 4.5", d:"2026-07-08", spec:"Código y trabajo agéntico, clase Opus", ctx:"500K tokens"},
+  {c:"Anthropic", m:"Claude Sonnet 5", d:"2026-06-30", spec:"Mejor balance velocidad/inteligencia, uso de herramientas", ctx:"1M tokens"},
+  {c:"Anthropic", m:"Claude Fable 5", d:"2026-06-09", spec:"El más potente de Anthropic (clase Mythos): ingeniería de software, investigación científica", ctx:"1M tokens"},
+  {c:"OpenAI", m:"GPT-5.6 (“Sol”)", d:"2026-07", spec:"Trabajo complejo: código, investigación, ciberseguridad, diseño", ctx:"No confirmado"},
+  {c:"OpenAI", m:"GPT-5.5", d:"2026-04-23", spec:"GPQA Diamond 93.6%, SWE-Bench Pro 58.6%", ctx:"No confirmado"},
+  {c:"Google", m:"Gemini 3.1 Pro", d:"2026-02-19", spec:"Contexto masivo, SWE-bench Verified 80.6%, ARC-AGI-2 77.1%", ctx:"2M tokens"},
+  {c:"Google", m:"Gemini 3 Deep Think", d:"2026-02-12", spec:"Razonamiento extendido con auto-verificación: matemáticas y física avanzadas", ctx:"No confirmado"},
+  {c:"OpenAI", m:"GPT-5.2-Codex", d:"2026-02-05", spec:"Programación agéntica, ~25% más rápido que la versión anterior", ctx:"No confirmado"},
+  {c:"DeepSeek", m:"DeepSeek V4-Pro", d:"2026-08-12", spec:"Razonamiento a coste muy bajo (0,435-0,87 USD / millón tokens)", ctx:"No confirmado"},
+  {c:"DeepSeek", m:"DeepSeek V4-Flash", d:"2026-07-31", spec:"Pesos abiertos (licencia MIT), coste ultra bajo", ctx:"No confirmado"},
+  {c:"Alibaba", m:"Qwen3.8-Max", d:"2026-08-03", spec:"2,4 billones de parámetros (MoE), fuerte en razonamiento", ctx:"1M tokens"},
+  {c:"Moonshot AI", m:"Kimi K3", d:"2026-07-16", spec:"Modelo open-weight más grande del mundo en su lanzamiento", ctx:"No confirmado"},
+  {c:"Meta", m:"Muse Spark", d:"2026-04", spec:"Primer modelo propietario/cerrado de Meta (giro estratégico)", ctx:"No confirmado"},
+  {c:"Google", m:"Gemini 3 Pro", d:"2025-11-18", spec:"Primer modelo de la familia 3.x, disponibilidad multiplataforma", ctx:"1M tokens"},
+  {c:"Mistral AI", m:"Mistral Large 3", d:"2025-12", spec:"Open-weight, 40+ idiomas", ctx:"256K tokens"},
+  {c:"Anthropic", m:"Claude Haiku 4.5", d:"2025-10-01", spec:"El más rápido y barato de Claude, con “extended thinking”", ctx:"200K tokens"},
+  {c:"Meta", m:"Llama 4 Maverick / Scout", d:"2025-04", spec:"Open-weight, contexto extremo (Scout: hasta 10M tokens)", ctx:"Hasta 10M tokens (Scout)"},
+  {c:"OpenAI", m:"o3 / o3-pro / o4-mini", d:"2025-04 / 06", spec:"Razonamiento en código, matemáticas y ciencia", ctx:"No confirmado"},
+];
+
+const ARENA_TOP10 = [
+  {name:"Claude Fable 5", org:"Anthropic", score:1506},
+  {name:"Claude Opus 4.6 High", org:"Anthropic", score:1505},
+  {name:"Claude Opus 4.7 High", org:"Anthropic", score:1502},
+  {name:"Muse Spark 1.2 xHigh", org:"Meta", score:1498},
+  {name:"Claude Opus 4.6", org:"Anthropic", score:1496},
+  {name:"Claude Opus 4.7", org:"Anthropic", score:1494},
+  {name:"Claude Opus 5", org:"Anthropic", score:1492},
+  {name:"Qwen 3.8 Max", org:"Alibaba", score:1491},
+  {name:"Gemini 3.7 Flash High", org:"Google", score:1490},
+  {name:"Claude Opus 5 Max", org:"Anthropic", score:1489},
+];
+
+const BENCH_GLOSSARY = [
+  {k:"Conocimiento", t:"MMLU", d:"Examen tipo test de 57 materias (historia, medicina, derecho...). Mide cuánto “sabe” el modelo, como un examen general de cultura."},
+  {k:"Programación", t:"SWE-bench / HumanEval", d:"SWE-bench evalúa si el modelo resuelve bugs reales de proyectos de GitHub — mucho más realista que HumanEval, que solo pide funciones simples."},
+  {k:"Ciencia avanzada", t:"GPQA Diamond", d:"Preguntas de física, química y biología de nivel doctorado, diseñadas para que ni un experto las resuelva fácil buscando en Google."},
+  {k:"Matemáticas", t:"MATH", d:"Problemas de nivel olimpiada/competición matemática."},
+  {k:"Conocimiento extremo", t:"Humanity's Last Exam (HLE)", d:"El benchmark más difícil de 2026: preguntas de frontera diseñadas específicamente para que las IA actuales todavía fallen la mayoría."},
+  {k:"Uso de herramientas", t:"Terminal-Bench 2.0 / OSWorld", d:"Miden si la IA puede operar una terminal o un sistema operativo real para completar tareas — el giro de la industria hacia evaluar “agentes”, no solo respuestas de texto."},
+];
+
+const BENCH_LEADERS = [
+  {b:"Humanity's Last Exam", mide:"Conocimiento y razonamiento de frontera", leader:"Gemini 3.1 Pro Preview", score:"46,4%"},
+  {b:"GPQA Diamond", mide:"Ciencia a nivel doctorado", leader:"GPT-5.4 Pro (xhigh)", score:"94,6%"},
+  {b:"SWE-bench Verified", mide:"Resolver bugs reales de código", leader:"Claude Opus 4.7 (max)", score:"83,5%"},
+  {b:"MATH Level 5", mide:"Matemáticas de competición", leader:"GPT-5 (high)", score:"98,1%"},
+  {b:"Terminal-Bench 2.0", mide:"Operar una terminal para completar tareas", leader:"Claude Opus 4.7", score:"90,2%"},
+];
+
+const CONCEPTS = [
+  {plat:"ChatGPT", color:"var(--aqua)", items:[
+    {n:"Projects", d:"Organiza conversaciones y archivos relacionados en un mismo espacio, con contexto persistente."},
+    {n:"Custom GPTs", d:"Asistentes personalizados con instrucciones fijas — disponible desde el plan gratuito."},
+    {n:"Modo Agente / Conectores", d:"Automatiza tareas multi-paso y conecta con apps externas (antes “Operator”)."},
+  ]},
+  {plat:"Claude", color:"var(--orange)", items:[
+    {n:"Projects", d:"Espacios de trabajo aislados con documentos e instrucciones persistentes — ilimitados desde el plan Pro."},
+    {n:"Skills", d:"Carpetas con instrucciones y scripts reutilizables; Claude solo carga lo relevante para cada tarea, no todo de una vez."},
+    {n:"Conectores (MCP)", d:"El estándar abierto que conecta Claude con herramientas y datos externos — creado por Anthropic."},
+  ]},
+  {plat:"Gemini", color:"var(--blue)", items:[
+    {n:"Gems", d:"El equivalente de Google a los Custom GPTs: asistentes con una personalidad e instrucciones fijas, con Gems predefinidos o creados por ti."},
+    {n:"NotebookLM", d:"Herramienta de investigación que aprende solo de las fuentes que tú subas (documentos, libros, notas)."},
+    {n:"Gemini Agent", d:"Automatización de tareas en el navegador y apps — reemplazó a Project Mariner en mayo de 2026."},
+  ]},
+];
+
+const CONSOLIDATORS = [
+  {n:"OpenRouter", who:"Desarrolladores / perfil técnico", d:"Acceso a más de 300 modelos de 18+ proveedores con una sola API key. Pago por uso de tokens, sin suscripción obligatoria."},
+  {n:"Poe (Quora)", who:"Usuarios no técnicos", d:"App de chat con más de 200 modelos oficiales y +1 millón de bots creados por usuarios. Planes desde 4,99 USD/mes con puntos de uso."},
+  {n:"Perplexity Pro", who:"Quien quiere respuestas con fuentes", d:"20 USD/mes: elige entre modelos “frontera” de OpenAI, Anthropic y Google, con búsqueda e investigación citada."},
+  {n:"LibreChat / TypingMind", who:"Perfil técnico (BYOK)", d:"Interfaces open-source que se conectan con tus propias claves de API a varios proveedores — requieren configuración."},
+];
+
+const PRICING = [
+  {plat:"ChatGPT (OpenAI)", plan:"Go", global:"8 USD/mes", sa:"6 USD/mes ✓ (lanzado 17 ene 2026)", notes:"Plan intermedio: 10x más uso que Free"},
+  {plat:"ChatGPT (OpenAI)", plan:"Plus", global:"20 USD/mes", sa:"20 USD (sin descuento confirmado)", notes:"Argentina: hasta ~28.600-37.000 ARS por impuesto PAÍS (30%)"},
+  {plat:"Claude (Anthropic)", plan:"Pro", global:"20 USD/mes", sa:"20 USD (sin descuento confirmado)", notes:"Brasil: ~24,95 USD (R$129,90) por ICMS estatal"},
+  {plat:"Gemini (Google)", plan:"AI Pro", global:"19,99 USD/mes", sa:"19,99 USD (sin descuento confirmado)", notes:"Se factura en moneda local vía Google Play, actualizado casi a diario según tipo de cambio"},
+];
+
+const COUNTRY_NOTES = [
+  {country:"Argentina", note:"Impuesto PAÍS (30%) y percepción de Ganancias elevan el costo final en pesos de forma notable frente al precio en USD."},
+  {country:"Brasil", note:"ICMS estatal (7-25% según el estado) se suma al precio base — ChatGPT Plus termina en ≈R$99,90/mes."},
+  {country:"Colombia", note:"En Google Play algunos planes “Pro” aparecen a precios más altos (hasta 320 USD equivalente) — verifica el plan exacto antes de suscribirte."},
+  {country:"Chile, Perú, Ecuador, Uruguay", note:"No se encontraron precios diferenciados confirmados — se factura en USD estándar del plan global."},
+];
+
+const PROMPT_BASICS = [
+  {k:"Concepto", t:"¿Qué es un prompt?", d:"Es el texto (o imagen, o audio) que le das a la IA para pedirle algo: una pregunta, una instrucción, o una tarea completa. Cuanto más claro seas, mejor es la respuesta — la IA no lee tu mente, solo lo que escribiste."},
+  {k:"Concepto", t:"¿Qué es un token?", d:"Es la unidad mínima de texto que la IA procesa — no siempre es una palabra completa. \"Gato\" puede ser 1 token, pero \"increíblemente\" puede dividirse en 2 o 3. La IA \"piensa\" y cobra por tokens, no por palabras."},
+  {k:"Concepto", t:"¿Qué es la tokenización?", d:"Es el proceso de cortar tu texto en esos pedacitos antes de procesarlo. Por eso los planes se miden en \"precio por millón de tokens\", y por eso existe un límite de \"contexto\" — cuánto texto puede leer y recordar la IA a la vez."},
+];
+
+const PROMPT_RULES = [
+  {plat:"1. Contexto", color:"var(--blue)", items:[
+    {n:"Quién eres y para qué lo necesitas", d:"La información de fondo que la IA no puede adivinar."},
+    {n:"Ejemplo", d:"\"Soy dueña de una cafetería pequeña en Bogotá con 5 empleados.\""},
+  ]},
+  {plat:"2. Instrucción (orden y acciones)", color:"var(--aqua)", items:[
+    {n:"Qué acción exacta debe hacer", d:"Redactar, resumir, comparar, calcular, programar, generar una imagen..."},
+    {n:"Ejemplo", d:"\"Escríbeme un correo de bienvenida para nuevos clientes, tono cercano y breve.\""},
+  ]},
+  {plat:"3. Restricciones", color:"var(--orange)", items:[
+    {n:"Límites de formato, tono y lo que NO debe hacer", d:"Extensión, idioma, estilo — y siempre pedir que no invente datos."},
+    {n:"Ejemplo", d:"\"Máximo 150 palabras, español neutro, sin emojis. Si no sabes algo, dímelo en vez de inventarlo.\""},
+  ]},
+];
+
+const RELIABILITY_TIPS = [
+  {k:"Regla 1", t:"Pide fuentes", d:"Agrega \"cita tus fuentes\" o \"dame los enlaces de donde sacaste esto\" — así puedes verificar antes de confiar en la respuesta."},
+  {k:"Regla 2", t:"Verifica las fechas", d:"La IA puede mezclar información vieja con nueva sin avisar. Pregunta \"¿de qué fecha es este dato?\" y confírmalo en la fuente original."},
+  {k:"Regla 3", t:"Usa herramientas con búsqueda real", d:"Perplexity, el modo de búsqueda de ChatGPT/Gemini o Claude con búsqueda web dan respuestas ancladas a internet — más fiables que un modelo que solo usa lo aprendido en su entrenamiento."},
+];
+
+const PROMPT_EXAMPLES = [
+  {tema:"Redactar contenido", bad:"Escríbeme algo sobre marketing.", good:"Actúa como especialista en marketing digital para pequeñas cafeterías. Contexto: tengo una cafetería en Medellín con presencia solo en Instagram. Dame 3 ideas de publicaciones para esta semana, tono cercano y juvenil, máximo 2 líneas cada una. No inventes datos de mi negocio que no te he dado."},
+  {tema:"Analizar datos", bad:"Analiza estos datos.", good:"Aquí tienes un Excel con las ventas del último trimestre (adjunto). Identifica los 3 productos con mayor caída de ventas, calcula el % de caída, y dime posibles causas basándote solo en lo que ves en la tabla — no asumas causas externas que no estén ahí."},
+  {tema:"Generar una imagen", bad:"Hazme una imagen de un logo.", good:"Genera un logo minimalista para \"Café Aurora\", estilo línea fina, colores tierra (marrón y crema), sin texto, fondo transparente, formato cuadrado."},
+  {tema:"Investigar un tema", bad:"Investiga sobre mi competencia.", good:"Investiga a [Empresa X], mi competencia directa en [ciudad]. Dame: 1) sus 3 productos principales, 2) rango de precios, 3) qué dicen sus reseñas en Google. Cita la fuente de cada dato. Si no encuentras información confiable sobre algún punto, dímelo en vez de suponer."},
+];
+
+const ACTION_TYPES = [
+  {k:"Autonomía", t:"Crear agentes", d:"Una IA a la que le das un objetivo y ella misma decide los pasos: buscar información, usar herramientas, corregirse y seguir hasta terminar — sin que le des instrucción por instrucción."},
+  {k:"Organización", t:"Crear proyectos", d:"Un espacio de trabajo donde subes documentos, defines instrucciones fijas, y todas tus conversaciones dentro de ese espacio comparten ese mismo contexto."},
+  {k:"Construcción", t:"Crear artefactos", d:"Contenido que puedes ver y usar directamente: una página web, un documento, un gráfico interactivo, un juego simple. La IA lo construye y te lo entrega funcionando."},
+  {k:"Análisis", t:"Analizar datos y negocios", d:"Sube un archivo o pide una investigación y la IA te devuelve hallazgos, patrones y comparaciones — con fuentes, si usas una herramienta conectada a internet."},
+  {k:"Creatividad", t:"Generar imágenes y vídeo", d:"Desde un boceto de logo hasta un clip animado de 30 segundos, a partir de una descripción en texto."},
+  {k:"Productividad", t:"Automatizar tareas repetitivas", d:"Conectar la IA a tus apps (correo, calendario, hojas de cálculo) para que haga sola tareas que antes hacías a mano."},
+];
+
+const ARTIFACT_STEPS = [
+  {h:"Paso 1-2: Empieza", age:"Antes de escribir nada", steps:[
+    "Entra a claude.ai y abre una conversación nueva",
+    "Asegúrate de tener sesión iniciada (el plan gratis también sirve)",
+    "No necesitas activar nada especial — los artefactos aparecen solos cuando el contenido lo amerita",
+  ]},
+  {h:"Paso 3-4: Pide algo concreto", age:"El prompt que debes escribir", steps:[
+    "Escribe algo como: \"Créame una calculadora de propinas en HTML, con un diseño simple y bonito\"",
+    "Sé específica: qué debe hacer, cómo se debe ver, y para qué sirve",
+    "Espera unos segundos — aparecerá un panel a la derecha con el resultado",
+  ]},
+  {h:"Paso 5-6: Usa y comparte", age:"Ya tienes tu artefacto", steps:[
+    "Pruébalo ahí mismo: si es una calculadora, usa los botones; si es un juego, juégalo",
+    "Pide cambios en lenguaje normal: \"hazlo más grande\" o \"cambia el color a azul\", y se actualiza al instante",
+    "Usa el botón de compartir/publicar para mandar el enlace a alguien, sin que necesite cuenta",
+  ]},
+];
+
+const ANALYSIS_USES = [
+  {q:"Investigar una empresa o competidor", tool:"Perplexity", how:"Pregunta directo: \"¿Qué hace la empresa X, cuáles son sus productos y quiénes son sus clientes principales? Cita tus fuentes.\""},
+  {q:"Analizar un Excel de ventas o finanzas", tool:"ChatGPT / Claude / Gemini (con carga de archivos)", how:"Sube el archivo y pide un análisis específico: tendencias, anomalías, comparaciones por período."},
+  {q:"Revisar un perfil o CV", tool:"Claude o ChatGPT", how:"Sube el PDF y pide una evaluación estructurada: fortalezas, huecos, sugerencias concretas."},
+  {q:"Monitorear noticias de un sector o negocio", tool:"Perplexity (modo Pro) o Gemini con búsqueda", how:"Pide un resumen periódico con fuentes de los últimos días o semanas sobre un tema concreto."},
+];
+
+const GOOGLE_ECO = [
+  {k:"Chat", t:"Gemini (app y web)", d:"El chat principal — texto, imagen, voz en tiempo real y el asistente por defecto en Android."},
+  {k:"Investigación", t:"NotebookLM", d:"Investigador que solo usa las fuentes que tú subas — ideal para estudiar o resumir varios documentos sin que la IA invente fuera de lo que le diste."},
+  {k:"Productividad", t:"Google Workspace (Docs, Sheets, Slides, Gmail)", d:"Gemini integrado dentro de tus documentos: redacta, resume correos largos, crea fórmulas y borradores de presentaciones sin salir de la app."},
+  {k:"Desarrollo", t:"AI Studio / Vertex AI", d:"Para perfiles técnicos: probar modelos, ajustar prompts y crear tus propias apps con la API de Gemini."},
+  {k:"Vídeo", t:"Flow", d:"Editor de vídeo con IA generativa integrada — incluye acceso a Nano Banana y a los modelos Veo."},
+  {k:"Búsqueda", t:"Google Search — Modo IA / AI Overviews", d:"Respuestas generadas por IA directo en los resultados de búsqueda, con enlaces a las fuentes."},
+];
+
+const COPILOT_APPS = [
+  {plat:"Word", color:"var(--blue)", items:[
+    {n:"Redactar y reescribir", d:"Genera un primer borrador desde tus notas o un archivo de referencia, y ajusta el tono con una instrucción."},
+    {n:"Resumir documentos largos", d:"Convierte un contrato o informe de 40 páginas en los puntos clave."},
+    {n:"Seguimiento de cambios asistido", d:"Sugerencias de edición a nivel de documento, útil en flujos legales o de cumplimiento."},
+  ]},
+  {plat:"Excel", color:"var(--aqua)", items:[
+    {n:"Fórmulas desde lenguaje natural", d:"Describe el resultado que quieres y Copilot genera la fórmula (VLOOKUP, XLOOKUP, etc.)."},
+    {n:"Función COPILOT() en celdas", d:"Pide análisis o clasificaciones directamente dentro de una celda de la hoja."},
+    {n:"Modo Editar + Python en Excel", d:"Copilot puede editar el libro directamente y usar Python por debajo para análisis avanzado, sin que tú escribas código."},
+  ]},
+  {plat:"PowerPoint", color:"var(--orange)", items:[
+    {n:"Generar una presentación completa", d:"A partir de un prompt o de un Word/PDF existente, arma un set de diapositivas listo para editar."},
+    {n:"Diseño de marca automático", d:"Aplica plantillas y estilo visual coherente (integración con Designer)."},
+    {n:"Reescribir y resumir diapositivas", d:"Ajusta el contenido de diapositivas ya creadas sin rehacerlas desde cero."},
+  ]},
+];
+
+const UNVERIFIED = [
+  "El nombre <b>“Sol”</b> para el modelo GPT-5.6 de OpenAI, y “Luna” para una variante ligera — aparecen solo en fuentes secundarias, no en un anuncio oficial de OpenAI.",
+  "Los puntajes exactos de <b>Elo en Arena.ai</b> (top 10) — confirmados en al menos dos fuentes, pero las cifras exactas pueden variar día a día.",
+  "Precios de planes <b>Team y Enterprise</b> de ChatGPT, Claude y Copilot — provienen de agregadores de terceros, no de las páginas oficiales de precios (bloqueadas durante la investigación).",
+  "<b>Grok 5</b> (xAI) y los modelos internos de Meta con nombre en clave <b>“Mango”/“Avocado”</b> — mencionados en reportes de prensa como “en desarrollo”, sin confirmación oficial ni fecha.",
+  "Edad mínima de <b>18 años para Claude</b> — reportada por una fuente secundaria (blog), no confirmada en la página oficial de soporte de Anthropic.",
+  "Almacenamiento exacto del plan <b>Google AI Pro</b> (se reportó entre 2 TB y 5 TB según la fuente) y si los <b>Gems</b> de Gemini requieren plan de pago.",
+  "Detalles de <b>Amazon Q</b> — no se encontraron novedades verificadas para 2026 en esta investigación.",
+  "Cifras de <b>You.com</b> como consolidador — solo aparecieron fuentes de baja fiabilidad, se excluyó del directorio por precaución.",
+  "Precio de <b>Copilot 365 en Sudamérica</b> — no se encontró tarifa oficial diferenciada por región; se factura vía partners CSP en moneda local.",
+  "Precio exacto por segundo de vídeo de <b>Wan (Qwen/Alibaba)</b> — cifra citada de un revendedor externo (Atlas Cloud), no una tarifa oficial confirmada de Alibaba.",
+  "Reparto exacto de qué modelo (GPT-5.6 de OpenAI vs. modelos MAI propios de Microsoft) responde en cada app de Copilot — no está documentado públicamente por Microsoft.",
+];
+
+const SOURCES = [
+  "help.openai.com — Model Release Notes", "openai.com — Introducing ChatGPT Go",
+  "anthropic.com/news — Claude Sonnet 5 / Opus 5 / Fable 5", "platform.claude.com — Models overview",
+  "ai.google.dev/gemini-api/docs/models", "blog.google — Google AI subscriptions",
+  "en.wikipedia.org — Gemini 3, GPT-5.1/5.2, LMArena/Arena, Grok deepfake scandal",
+  "arena.ai/leaderboard", "techcrunch.com", "axios.com", "fortune.com", "bloomberg.com",
+  "venturebeat.com", "forbes.com", "infobae.com", "blog.donweb.com", "opentherank.com",
+  "support.google.com/accounts — edad mínima por país", "gemini.google/es/overview/gems",
+  "ai-toolbox.co — Grok models explained 2026", "api-docs.deepseek.com/news",
+  "serenitiesai.com — Mistral AI models 2026", "yottalabs.ai — DeepSeek V4 / Qwen3.8-Max",
+  "mlq.ai — Amazon Nova strategy", "javadex.es — Guía OpenRouter 2026", "hokai.io — Poe pricing",
+  "felloai.com — Perplexity pricing", "dataconomy.com — Cierre de HuggingChat",
+  "alibabacloud.com/blog — Wan2.6 / Wan2.7", "technode.global — Wan3.0 beta pública",
+  "blog.google — Nano Banana 2 (Gemini 3.1 Flash Image)", "techcrunch.com — Nano Banana 2, GPT-5.6 en Copilot",
+  "microsoft.com/microsoft-365-copilot/pricing — Precios Enterprise",
+  "support.microsoft.com — Copilot en Excel, PowerPoint, Outlook",
+  "techcommunity.microsoft.com — Copilot en Word, novedades SharePoint",
+];
+
+/* ================= RENDER ================= */
+
+function esc(s){ return (s||'').replace(/</g,'&lt;'); }
+
+// Companies
+const companyGrid = document.getElementById('companyGrid');
+COMPANIES.forEach(c=>{
+  const el = document.createElement('div');
+  el.className = 'ccard';
+  el.style.setProperty('--c', c.color);
+  el.innerHTML = `
+    <div class="chead">
+      <div><h3>${c.name}</h3><div class="product">${c.product}</div></div>
+      <span class="badge-date">${c.flagshipDate}</span>
+    </div>
+    <div class="flagship">${c.flagship} <span>— modelo insignia</span></div>
+    <p class="spec">${c.spec}</p>
+    <div class="models"><b>Modelos:</b> ${c.models}</div>
+    ${c.note ? `<div class="note">⚠ ${c.note}</div>` : ''}
+  `;
+  companyGrid.appendChild(el);
+});
+
+// Models table
+const modelsBody = document.getElementById('modelsBody');
+function renderModels(filter){
+  modelsBody.innerHTML = '';
+  const q = (filter||'').toLowerCase();
+  MODELS.filter(r => !q || (r.c+r.m+r.spec).toLowerCase().includes(q)).forEach(r=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="ink">${esc(r.c)}</td><td>${esc(r.m)}</td><td>${esc(r.d)}</td><td>${esc(r.spec)}</td><td>${esc(r.ctx)}</td>`;
+    modelsBody.appendChild(tr);
+  });
+}
+renderModels('');
+document.getElementById('modelSearch').addEventListener('input', e=> renderModels(e.target.value));
+
+// Arena chart
+const arenaChart = document.getElementById('arenaChart');
+const maxScore = Math.max(...ARENA_TOP10.map(r=>r.score));
+const minScore = Math.min(...ARENA_TOP10.map(r=>r.score)) - 10;
+ARENA_TOP10.forEach((r,i)=>{
+  const pct = ((r.score - minScore) / (maxScore - minScore)) * 100;
+  const row = document.createElement('div');
+  row.className = 'barrow';
+  row.innerHTML = `<div class="name"><span class="rank">${i+1}</span>${esc(r.name)}</div><div class="track"><div class="fill" style="width:${pct.toFixed(1)}%"></div></div><div class="score">${r.score} · ${esc(r.org)}</div>`;
+  arenaChart.appendChild(row);
+});
+
+// Benchmark glossary
+const benchGlossary = document.getElementById('benchGlossary');
+BENCH_GLOSSARY.forEach(b=>{
+  const el = document.createElement('div');
+  el.className = 'gcard';
+  el.innerHTML = `<div class="k">${esc(b.k)}</div><h4>${esc(b.t)}</h4><p>${esc(b.d)}</p>`;
+  benchGlossary.appendChild(el);
+});
+
+// Bench leaders table
+const benchLeadersBody = document.getElementById('benchLeadersBody');
+BENCH_LEADERS.forEach(r=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="ink">${esc(r.b)}</td><td>${esc(r.mide)}</td><td>${esc(r.leader)}</td><td>${esc(r.score)}</td>`;
+  benchLeadersBody.appendChild(tr);
+});
+
+// Concepts
+const conceptGrid = document.getElementById('conceptGrid');
+CONCEPTS.forEach(c=>{
+  const el = document.createElement('div');
+  el.className = 'concept-card';
+  el.innerHTML = `<div class="plat" style="color:${c.color}">${esc(c.plat)}</div>` +
+    c.items.map(it=>`<div class="item"><b>${esc(it.n)}</b><span>${esc(it.d)}</span></div>`).join('');
+  conceptGrid.appendChild(el);
+});
+
+// Prompt basics
+const promptBasicsGrid = document.getElementById('promptBasicsGrid');
+PROMPT_BASICS.forEach(b=>{
+  const el = document.createElement('div');
+  el.className = 'gcard';
+  el.innerHTML = `<div class="k">${esc(b.k)}</div><h4>${esc(b.t)}</h4><p>${esc(b.d)}</p>`;
+  promptBasicsGrid.appendChild(el);
+});
+
+// Prompt rules (Contexto / Instrucción / Restricciones)
+const promptRulesGrid = document.getElementById('promptRulesGrid');
+PROMPT_RULES.forEach(c=>{
+  const el = document.createElement('div');
+  el.className = 'concept-card';
+  el.innerHTML = `<div class="plat" style="color:${c.color}">${esc(c.plat)}</div>` +
+    c.items.map(it=>`<div class="item"><b>${esc(it.n)}</b><span>${esc(it.d)}</span></div>`).join('');
+  promptRulesGrid.appendChild(el);
+});
+
+// Reliability tips
+const reliabilityGrid = document.getElementById('reliabilityGrid');
+RELIABILITY_TIPS.forEach(b=>{
+  const el = document.createElement('div');
+  el.className = 'gcard';
+  el.innerHTML = `<div class="k">${esc(b.k)}</div><h4>${esc(b.t)}</h4><p>${esc(b.d)}</p>`;
+  reliabilityGrid.appendChild(el);
+});
+
+// Prompt examples (bad vs good)
+const promptExamples = document.getElementById('promptExamples');
+PROMPT_EXAMPLES.forEach(ex=>{
+  const el = document.createElement('div');
+  el.className = 'gcard';
+  el.style.marginBottom = '14px';
+  el.innerHTML = `<div class="k">${esc(ex.tema)}</div>
+    <p style="margin:2px 0 8px;"><span style="color:var(--red); font-weight:700;">✗ Débil:</span> <span style="color:var(--ink-2);">${esc(ex.bad)}</span></p>
+    <p style="margin:0;"><span style="color:var(--green); font-weight:700;">✓ Mejor:</span> <span style="color:var(--ink-2);">${esc(ex.good)}</span></p>`;
+  promptExamples.appendChild(el);
+});
+
+// Action types
+const actionTypesGrid = document.getElementById('actionTypesGrid');
+ACTION_TYPES.forEach(a=>{
+  const el = document.createElement('div');
+  el.className = 'gcard';
+  el.innerHTML = `<div class="k">${esc(a.k)}</div><h4>${esc(a.t)}</h4><p>${esc(a.d)}</p>`;
+  actionTypesGrid.appendChild(el);
+});
+
+// Artifact steps
+const artifactSteps = document.getElementById('artifactSteps');
+ARTIFACT_STEPS.forEach(s=>{
+  const el = document.createElement('div');
+  el.className = 'stepcard';
+  el.innerHTML = `<h4>${esc(s.h)}</h4><div class="age">${esc(s.age)}</div><ol>${s.steps.map(st=>`<li>${esc(st)}</li>`).join('')}</ol>`;
+  artifactSteps.appendChild(el);
+});
+
+// Analysis uses table
+const analysisBody = document.getElementById('analysisBody');
+ANALYSIS_USES.forEach(r=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="ink">${esc(r.q)}</td><td>${esc(r.tool)}</td><td>${esc(r.how)}</td>`;
+  analysisBody.appendChild(tr);
+});
+
+// Google ecosystem
+const googleEcoGrid = document.getElementById('googleEcoGrid');
+GOOGLE_ECO.forEach(g=>{
+  const el = document.createElement('div');
+  el.className = 'gcard';
+  el.innerHTML = `<div class="k">${esc(g.k)}</div><h4>${esc(g.t)}</h4><p>${esc(g.d)}</p>`;
+  googleEcoGrid.appendChild(el);
+});
+
+// Copilot apps
+const copilotGrid = document.getElementById('copilotGrid');
+COPILOT_APPS.forEach(c=>{
+  const el = document.createElement('div');
+  el.className = 'concept-card';
+  el.innerHTML = `<div class="plat" style="color:${c.color}">${esc(c.plat)}</div>` +
+    c.items.map(it=>`<div class="item"><b>${esc(it.n)}</b><span>${esc(it.d)}</span></div>`).join('');
+  copilotGrid.appendChild(el);
+});
+
+// Consolidators
+const consolidatorGrid = document.getElementById('consolidatorGrid');
+CONSOLIDATORS.forEach(c=>{
+  const el = document.createElement('div');
+  el.className = 'gcard';
+  el.innerHTML = `<div class="k">${esc(c.who)}</div><h4>${esc(c.n)}</h4><p>${esc(c.d)}</p>`;
+  consolidatorGrid.appendChild(el);
+});
+
+// Pricing
+const pricingBody = document.getElementById('pricingBody');
+PRICING.forEach(r=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="ink">${esc(r.plat)}</td><td>${esc(r.plan)}</td><td>${esc(r.global)}</td><td>${esc(r.sa)}</td><td>${esc(r.notes)}</td>`;
+  pricingBody.appendChild(tr);
+});
+
+// Country notes
+const countryNotes = document.getElementById('countryNotes');
+COUNTRY_NOTES.forEach(c=>{
+  const el = document.createElement('div');
+  el.className = 'gcard';
+  el.innerHTML = `<h4>${esc(c.country)}</h4><p>${esc(c.note)}</p>`;
+  countryNotes.appendChild(el);
+});
+
+// Unverified list
+const unverifiedList = document.getElementById('unverifiedList');
+UNVERIFIED.forEach(u=>{
+  const li = document.createElement('li');
+  li.innerHTML = '⚠ ' + u;
+  unverifiedList.appendChild(li);
+});
+
+// Sources
+const sourcesList = document.getElementById('sourcesList');
+SOURCES.forEach(s=>{
+  const li = document.createElement('li');
+  li.textContent = s;
+  sourcesList.appendChild(li);
+});
+
+/* ================= TABS ================= */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b===btn));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+btn.dataset.panel));
+    window.scrollTo({top:0, behavior:'instant'});
+  });
+});
+</script>
+</body>
+</html>

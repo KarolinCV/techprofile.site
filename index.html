@@ -72,6 +72,15 @@
 
   /* ---------- HERO ---------- */
   .hero{ padding:88px 0 56px; position:relative; }
+  .hero-top{ display:flex; align-items:center; gap:40px; flex-wrap:wrap; }
+  .hero-text{ flex:1; min-width:280px; }
+  .hero-photo{
+    width:168px; height:168px; border-radius:50%; object-fit:cover;
+    border:1px solid rgba(79,209,197,0.35);
+    box-shadow:0 0 0 6px var(--teal-dim), 0 0 30px rgba(79,209,197,0.15);
+    flex-shrink:0;
+  }
+  @media (max-width:720px){ .hero-top{ flex-direction:column-reverse; } .hero-photo{ width:132px; height:132px; } }
   .eyebrow{
     display:inline-flex; align-items:center; gap:8px;
     font-family:'JetBrains Mono'; font-size:12px; letter-spacing:0.08em;
@@ -295,9 +304,13 @@
 
   <!-- HERO -->
   <section class="hero" style="border-top:none;">
-    <span class="eyebrow">● Disponible — remoto o presencial · Sabadell / Barcelona</span>
-    <h1>Convierto datos de negocio en <span class="accent">sistemas que deciden</span>, no solo en gráficos.</h1>
-    <p class="hero-sub">Especialista en Business Intelligence, Automatización de Procesos e IA Aplicada al Negocio. Máster en Big Data y Ciencia de Datos · 18 años de gestión empresarial · Fundadora full-stack.</p>
+    <div class="hero-top">
+      <div class="hero-text">
+        <h1>Convierto datos de negocio en <span class="accent">sistemas que deciden</span>, no solo en gráficos.</h1>
+        <p class="hero-sub">Especialista en Business Intelligence, Automatización de Procesos e IA Aplicada al Negocio. Máster en Big Data y Ciencia de Datos · 18 años de gestión empresarial · Fundadora full-stack.</p>
+      </div>
+      <img class="hero-photo" src="Karolin_perfil.jpeg" alt="Foto de perfil de Karolin Castañeda Vásquez">
+    </div>
 
     <div class="hero-meta">
       <a href="mailto:karolin.cv@techprofile.site"><span class="ico">✉</span> karolin.cv@techprofile.site</a>
